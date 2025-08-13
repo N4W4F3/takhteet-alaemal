@@ -1,12 +1,422 @@
-<!DOCTYPE html>
-<html lang="ar">
+<!doctype html>
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مشروعي الأول على GitHub</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>تخطيط الأعمال – شريكك الاستراتيجي | TAKHTEET ALAEMAL</title>
+  <meta name="description" content="تخطيط الأعمال | TAKHTEET ALAEMAL: إدارة مشاريع، خدمات فنية، وتنفيذ متكامل بمعايير عالمية." />
+  <meta name="theme-color" content="#0a1625" />
+  <meta property="og:title" content="تخطيط الأعمال – شريكك الاستراتيجي" />
+  <meta property="og:description" content="حلول متكاملة لإدارة المشاريع والتنفيذ من التخطيط وحتى التسليم." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/logo.png" />
+  <link rel="icon" href="assets/logo.png" />
+  <style>
+    :root{
+      --bg:#0a1220;         /* خلفية داكنة فاخرة */
+      --card:#0f1a2e;       /* زجاج داكن */
+      --line:#1d2a44;       /* حدود */
+      --text:#e7eef8;       /* نص أساسي */
+      --muted:#9fb1c9;      /* نص ثانوي */
+      --brand:#00d3a7;      /* لون مميز (فيروزي) */
+      --brand-2:#4ade80;    /* لون ثانوي (أخضر) */
+      --accent:#eab308;     /* لمسة ذهبية */
+      --radius:20px;
+      --shadow:0 12px 40px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;color:var(--text);font:16px/1.8 system-ui,-apple-system,Segoe UI,Roboto,"Noto Kufi Arabic",Tahoma,Arial;background:
+      radial-gradient(800px 400px at 100% -10%, rgba(0,211,167,.10), transparent 60%),
+      radial-gradient(800px 400px at -10% 110%, rgba(234,179,8,.08), transparent 60%),
+      linear-gradient(180deg,#0a1020 0%,#0a1220 60%,#0b1528 100%);
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1200px,92%);margin:auto}
+    .btn{display:inline-block;padding:12px 22px;border-radius:999px;background:var(--brand);color:#05211b;font-weight:800;letter-spacing:.2px;box-shadow:var(--shadow);transition:.2s}
+    .btn:hover{transform:translateY(-2px);filter:saturate(1.1)}
+    .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+    .chip{display:inline-flex;align-items:center;gap:8px;font-size:12px;padding:6px 12px;border-radius:999px;background:#0c1a2e;border:1px solid var(--line);color:var(--muted)}
+    /* Top Nav */
+    header{position:sticky;top:0;z-index:40;backdrop-filter:blur(10px);background:rgba(5,14,26,.45);border-bottom:1px solid #0f1b2f}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{width:48px;height:48px;object-fit:contain;border-radius:10px}
+    .brand h1{margin:0;font-size:18px;letter-spacing:.3px}
+    .burger{display:none;gap:6px;background:transparent;border:1px solid var(--line);padding:8px 10px;border-radius:10px;color:var(--text)}
+    .burger span{width:18px;height:2px;background:var(--text);display:block}
+    nav ul{display:flex;gap:14px;list-style:none;margin:0;padding:0}
+    nav a{padding:8px 12px;border-radius:999px}
+    nav a.active, nav a:hover{background:#0f2138}
+    /* Hero */
+    .hero{position:relative;min-height:82vh;display:grid;place-items:center;border-bottom:1px solid var(--line)}
+    .hero video,.hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.6)}
+    .hero .overlay{position:absolute;inset:0;background:radial-gradient(600px 300px at 100% 0%, rgba(0,211,167,.18), transparent 60%)}
+    .hero .content{position:relative;z-index:2;padding:110px 0 60px}
+    .title{font-size:44px;line-height:1.2;margin:16px 0}
+    .lead{color:var(--muted);margin:0 0 18px}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .hero-card{background:rgba(16,28,48,.7);backdrop-filter:blur(8px);border:1px solid var(--line);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
+    /* Sections */
+    section{padding:70px 0;border-bottom:1px solid var(--line);scroll-margin-top:90px}
+    .section-title{font-size:30px;margin:0 0 18px}
+    .muted{color:var(--muted)}
+    .grid{display:grid;gap:18px}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .card{background:rgba(16,28,48,.65);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+    .card h3{margin:0 0 8px}
+    .stat{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;border-radius:16px;background:#0c182c;border:1px solid var(--line)}
+    .stat b{font-size:28px}
+    /* Projects Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .tile{position:relative;overflow:hidden;border-radius:16px;background:#0c1a2e;border:1px solid var(--line)}
+    .tile .caption{position:absolute;inset:auto 0 0 0;padding:12px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.6));color:#fff}
+    .tile img{width:100%;height:220px;object-fit:cover;transition:transform .5s}
+    .tile:hover img{transform:scale(1.06)}
+    /* Contact */
+    form{display:grid;gap:12px}
+    input,textarea{width:100%;padding:12px;border-radius:14px;border:1px solid var(--line);background:#0b1628;color:var(--text)}
+    textarea{min-height:120px;resize:vertical}
+    /* Footer */
+    footer{padding:40px 0;color:#a6b3c5}
+    .foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .social{display:flex;gap:12px}
+    .social a{width:36px;height:36px;border-radius:10px;background:#0c1629;display:grid;place-items:center;border:1px solid var(--line)}
+    /* Floating WhatsApp */
+    .whatsapp{position:fixed;left:18px;bottom:18px;z-index:50;background:#25d366;color:#062a1a;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-weight:900;box-shadow:var(--shadow)}
+    /* Responsive */
+    @media (max-width:920px){
+      .burger{display:inline-flex}
+      nav ul{position:absolute;top:64px;right:4%;left:4%;padding:14px;border:1px solid var(--line);border-radius:16px;background:#0c182c;display:none;flex-direction:column;gap:8px}
+      nav ul.open{display:flex}
+    }
+    @media (max-width:1024px){.grid-3{grid-template-columns:repeat(2,1fr)}.title{font-size:36px}}
+    @media (max-width:720px){.grid-2,.grid-3{grid-template-columns:1fr}.hero{min-height:70vh}.title{font-size:30px}}
+    /* Appear animations */
+    .reveal{opacity:0;transform:translateY(12px);transition:.6s ease}
+    .reveal.in{opacity:1;transform:none}
+  </style>
 </head>
 <body>
-    <h1>أهلاً بك في مشروعي</h1>
-    <p>هذا أول رفع لي على GitHub 🚀</p>
+  <a class="whatsapp" href="https://wa.me/966544428455" target="_blank" aria-label="تواصل واتساب">WA</a>
+  <!-- شريط علوي -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <img src="assets/logo.png" alt="شعار تخطيط الأعمال" />
+        <h1 id="brand">تخطيط الأعمال</h1>
+      </div>
+      <nav aria-label="التنقل الرئيسي">
+        <ul id="menu">
+          <li><a href="#home" class="active" id="nav_home">الرئيسية</a></li>
+          <li><a href="#services" id="nav_services">الخدمات</a></li>
+          <li><a href="#about" id="nav_about">من نحن</a></li>
+          <li><a href="#projects" id="nav_projects">المشاريع</a></li>
+          <li><a href="#team" id="nav_team">الفريق</a></li>
+          <li><a href="#contact" id="nav_contact">اتصل بنا</a></li>
+        </ul>
+      </nav>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button id="langToggle" class="btn ghost" style="padding:8px 14px">EN</button>
+        <button class="burger" id="menuToggle" aria-label="فتح القائمة" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- البطل (فيديو/صورة خلفية) -->
+  <section id="home" class="hero">
+    <video autoplay muted loop playsinline poster="assets/hero.jpg" aria-label="خلفية عرض"></video>
+    <div class="bg" aria-hidden="true"></div>
+    <div class="overlay" aria-hidden="true"></div>
+    <div class="container content">
+      <div class="hero-card reveal">
+        <span class="chip" id="kicker">شريكك الاستراتيجي لتحويل الرؤية إلى واقع</span>
+        <h2 class="title" id="hero_title">إدارة مشاريع وتنفيذ متكامل <span style="color:var(--brand)">بمعايير عالمية</span></h2>
+        <p class="lead" id="hero_lead">نقدّم حلولًا متكاملة من التخطيط والمتابعة إلى التسليم والتشغيل، مع التزام بالجودة والامتثال والسلامة.</p>
+        <div class="cta">
+          <a class="btn" href="#contact" id="cta_primary">اطلب استشارة</a>
+          <a class="btn ghost" href="#services" id="cta_secondary">تعرّف على خدماتنا</a>
+        </div>
+        <div class="grid grid-3" style="margin-top:14px">
+          <div class="stat"><b id="stat1_val">+9</b><span class="muted" id="stat1_lbl">مشاريع</span></div>
+          <div class="stat"><b id="stat2_val">+5</b><span class="muted" id="stat2_lbl">استشاريين خبراء</span></div>
+          <div class="stat"><b id="stat3_val">+2</b><span class="muted" id="stat3_lbl">سنوات خبرة</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- الخدمات -->
+  <section id="services">
+    <div class="container">
+      <h2 class="section-title reveal">خدماتنا</h2>
+      <p class="muted reveal">حلول تغطي دورة حياة المشروع كاملة: من الفكرة وحتى التسليم والتشغيل.</p>
+      <div class="grid grid-3">
+        <article class="card reveal">
+          <span class="chip">إدارة المشاريع</span>
+          <h3>تخطيط ومراقبة وتكلفة</h3>
+          <ul class="muted" style="margin:0 0 0 18px">
+            <li>خطة أساسية وجداول (Primavera/MS Project)</li>
+            <li>تقارير مؤشرات الأداء وEVA</li>
+            <li>ضبط الميزانية والقيمة المكتسبة</li>
+            <li>إدارة المخاطر والعقود والتغيير</li>
+          </ul>
+        </article>
+        <article class="card reveal">
+          <span class="chip">الخدمات الفنية</span>
+          <h3>مخططات ومستندات وامتثال</h3>
+          <ul class="muted" style="margin:0 0 0 18px">
+            <li>Shop Drawings لجميع التخصصات</li>
+            <li>حصر كميات وتسعير وBOQ</li>
+            <li>ملفات مناقصات ومعايير الجهات</li>
+            <li>مراجعة تصميم وValue Engineering</li>
+          </ul>
+        </article>
+        <article class="card reveal">
+          <span class="chip">التنفيذ</span>
+          <h3>إشراف وتسليم متكامل</h3>
+          <ul class="muted" style="margin:0 0 0 18px">
+            <li>مدني/إنشائي ومعماري وMEP</li>
+            <li>جودة وسلامة وحوكمة HSE</li>
+            <li>تتبع تقدم الأعمال وتقارير أسبوعية/شهرية</li>
+            <li>اختبارات وتشغيل وتسليم نهائي</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- من نحن -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title reveal">من نحن</h2>
+      <div class="grid grid-2">
+        <div class="card reveal">
+          <h3>رؤيتنا</h3>
+          <p class="muted">أن نكون جهة رائدة في إدارة المشاريع والمقاولات، حيث تُترجم الرؤية إلى تنفيذ بكفاءة وشفافية ومعايير جودة عالية.</p>
+        </div>
+        <div class="card reveal">
+          <h3>رسالتنا</h3>
+          <p class="muted">تمكين نجاح المشاريع عبر التخطيط الاستراتيجي والخبرة الفنية والتنفيذ المنضبط؛ مع الحفاظ على الجودة والامتثال والكفاءة.</p>
+        </div>
+        <div class="card reveal">
+          <h3>قيمنا</h3>
+          <p class="muted">الابتكار • النزاهة • التعاون • التميّز</p>
+        </div>
+        <div class="card reveal">
+          <h3>لماذا نحن؟</h3>
+          <ul class="muted" style="margin:0 0 0 18px">
+            <li>نهج متكامل من المكتب الفني إلى الموقع</li>
+            <li>حوكمة جودة وسلامة صارمة</li>
+            <li>تواصل شفاف وتقارير قياسية</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- مشاريع مختارة -->
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-title reveal">مشاريع مختارة</h2>
+      <p class="muted reveal">عينات موجزة توضح نطاق أعمالنا (أمثلة قابلة للتبديل لاحقًا بالصور الحقيقية).</p>
+      <div class="gallery">
+        <figure class="tile reveal" style="grid-column:span 6">
+          <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop" alt="بنية تحتية – إشراف"/>
+          <figcaption class="caption"><strong>إشراف بنية تحتية مائية</strong><br><small>مكتب إدارة مشروع ومكتب فني</small></figcaption>
+        </figure>
+        <figure class="tile reveal" style="grid-column:span 3">
+          <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=800&auto=format&fit=crop" alt="دعم فني لحدث"/>
+          <figcaption class="caption"><strong>دعم فني وطاقم – فعالية</strong></figcaption>
+        </figure>
+        <figure class="tile reveal" style="grid-column:span 3">
+          <img src="https://images.unsplash.com/photo-1529429612779-c8e40ef2f36b?q=80&w=800&auto=format&fit=crop" alt="خدمات تعاقدية"/>
+          <figcaption class="caption"><strong>خدمات تعاقدية واستشارية</strong></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- الفريق -->
+  <section id="team">
+    <div class="container">
+      <h2 class="section-title reveal">فريقنا</h2>
+      <div class="grid grid-3">
+        <article class="card reveal">
+          <h3>م. رمضان السيد</h3>
+          <p class="muted">مدير مشاريع أول – 27+ سنة خبرة في البنية التحتية والمشاريع الحكومية.</p>
+        </article>
+        <article class="card reveal">
+          <h3>م. محمد السيد | PMP®</h3>
+          <p class="muted">مهندس تخطيط – جداول، ضبط تكلفة، وتحليل أداء لمشاريع كبرى.</p>
+        </article>
+        <article class="card reveal">
+          <h3>م. شريف براضية</h3>
+          <p class="muted">مهندس ميكانيكا أول | MEP – خبرة 13+ سنة في HVAC وإطفاء ومياه.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- تواصل -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title reveal">اتصل بنا</h2>
+      <div class="grid grid-2">
+        <div class="card reveal">
+          <form id="contactForm">
+            <input required name="name" placeholder="الاسم الكامل" />
+            <input required type="email" name="email" placeholder="البريد الإلكتروني" />
+            <textarea required name="message" placeholder="كيف نقدر نخدمك؟"></textarea>
+            <button class="btn" type="submit">إرسال</button>
+          </form>
+          <p class="muted">نموذج بسيط الآن؛ يمكن ربطه بـ CRM أو Google Sheets لاحقًا.</p>
+        </div>
+        <div class="card reveal">
+          <h3>معلومات التواصل</h3>
+          <p class="muted">الهاتف: <a href="tel:+966544428455">+966 54 442 8455</a><br> البريد: <a href="mailto:waseem@tala3mal.com">waseem@tala3mal.com</a><br> العنوان: الرياض، السعودية</p>
+          <iframe title="خريطة تقريبية" width="100%" height="200" style="border:0;border-radius:12px" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Riyadh&t=&z=12&ie=UTF8&iwloc=&output=embed"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <small>© <span id="y"></span> تخطيط الأعمال. جميع الحقوق محفوظة.</small>
+      <div class="social" aria-label="روابط التواصل">
+        <a href="#" aria-label="لينكدإن">in</a>
+        <a href="#" aria-label="تويتر/إكس">✦</a>
+        <a href="#" aria-label="يوتيوب">▶</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // سنة ديناميكية
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // إرسال عبر البريد
+    document.getElementById('contactForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const d = new FormData(this);
+      const name = d.get('name');
+      const email = d.get('email');
+      const message = d.get('message');
+      const to = 'waseem@tala3mal.com';
+      const subject = `استفسار جديد من الموقع – ${name}`;
+      const body = `الاسم: ${name}%0Aالبريد: ${email}%0A%0Aالرسالة:%0A${message}`;
+      window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+
+    // تنشيط الرابط الحالي أثناء التمرير
+    const sections = [...document.querySelectorAll('section[id]')];
+    const navLinks = [...document.querySelectorAll('nav a')];
+    const spy = new IntersectionObserver((entries)=>{
+      entries.forEach((entry)=>{
+        if(entry.isIntersecting){
+          navLinks.forEach(a=>a.classList.remove('active'));
+          const link = document.querySelector(`nav a[href='#${entry.target.id}']`);
+          if(link) link.classList.add('active');
+        }
+      })
+    },{root:null,threshold:.4});
+    sections.forEach(sec=>spy.observe(sec));
+
+    // ظهور العناصر
+    const appear = new IntersectionObserver((entries)=>{
+      entries.forEach((entry)=>{
+        if(entry.isIntersecting){ entry.target.classList.add('in'); }
+      })
+    },{threshold:.15});
+    document.querySelectorAll('.reveal').forEach(el=>appear.observe(el));
+
+    // i18n بسيط عربي/إنجليزي
+    const i18n = {
+      ar: {
+        brand: 'تخطيط الأعمال', kicker:'شريكك الاستراتيجي لتحويل الرؤية إلى واقع',
+        hero_title:'إدارة مشاريع وتنفيذ متكامل <span style="color:var(--brand)">بمعايير عالمية</span>',
+        hero_lead:'نقدّم حلولًا متكاملة من التخطيط والمتابعة إلى التسليم والتشغيل، مع التزام بالجودة والامتثال والسلامة.',
+        nav_home:'الرئيسية', nav_services:'الخدمات', nav_about:'من نحن', nav_projects:'المشاريع', nav_team:'الفريق', nav_contact:'اتصل بنا',
+        cta_primary:'اطلب استشارة', cta_secondary:'تعرّف على خدماتنا',
+        stat1_lbl:'مشاريع', stat2_lbl:'استشاريين خبراء', stat3_lbl:'سنوات خبرة',
+        services_title:'خدماتنا', about_title:'من نحن', projects_title:'مشاريع مختارة', team_title:'فريقنا', contact_title:'اتصل بنا'
+      },
+      en: {
+        brand: 'TAKHTEET ALAEMAL', kicker:'Your strategic partner to turn vision into reality',
+        hero_title:'Integrated project management & execution <span style="color:var(--brand)">to global standards</span>',
+        hero_lead:'End-to-end solutions from planning and controls to handover and operations, with a strong focus on quality, compliance and safety.',
+        nav_home:'Home', nav_services:'Services', nav_about:'About', nav_projects:'Projects', nav_team:'Team', nav_contact:'Contact',
+        cta_primary:'Book a Consultation', cta_secondary:'Explore Services',
+        stat1_lbl:'Projects', stat2_lbl:'Expert Consultants', stat3_lbl:'Years of Experience',
+        services_title:'Our Services', about_title:'About Us', projects_title:'Featured Projects', team_title:'Our Team', contact_title:'Contact Us'
+      }
+    };
+
+    const refs = {
+      brand: document.getElementById('brand'),
+      kicker: document.getElementById('kicker'),
+      hero_title: document.getElementById('hero_title'),
+      hero_lead: document.getElementById('hero_lead'),
+      nav_home: document.getElementById('nav_home'),
+      nav_services: document.getElementById('nav_services'),
+      nav_about: document.getElementById('nav_about'),
+      nav_projects: document.getElementById('nav_projects'),
+      nav_team: document.getElementById('nav_team'),
+      nav_contact: document.getElementById('nav_contact'),
+      cta_primary: document.getElementById('cta_primary'),
+      cta_secondary: document.getElementById('cta_secondary'),
+      stat1_lbl: document.getElementById('stat1_lbl'),
+      stat2_lbl: document.getElementById('stat2_lbl'),
+      stat3_lbl: document.getElementById('stat3_lbl'),
+      services_title: document.querySelector('#services .section-title'),
+      about_title: document.querySelector('#about .section-title'),
+      projects_title: document.querySelector('#projects .section-title'),
+      team_title: document.querySelector('#team .section-title'),
+      contact_title: document.querySelector('#contact .section-title')
+    };
+
+    let lang = 'ar';
+    const toggle = document.getElementById('langToggle');
+    function applyLang(l){
+      const t = i18n[l]; if(!t) return;
+      document.documentElement.lang = l === 'ar' ? 'ar' : 'en';
+      document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
+      toggle.textContent = l === 'ar' ? 'EN' : 'عربي';
+      refs.brand.textContent = t.brand;
+      refs.kicker.textContent = t.kicker;
+      refs.hero_title.innerHTML = t.hero_title;
+      refs.hero_lead.textContent = t.hero_lead;
+      refs.nav_home.textContent = t.nav_home;
+      refs.nav_services.textContent = t.nav_services;
+      refs.nav_about.textContent = t.nav_about;
+      refs.nav_projects.textContent = t.nav_projects;
+      refs.nav_team.textContent = t.nav_team;
+      refs.nav_contact.textContent = t.nav_contact;
+      refs.cta_primary.textContent = t.cta_primary;
+      refs.cta_secondary.textContent = t.cta_secondary;
+      refs.stat1_lbl.textContent = t.stat1_lbl;
+      refs.stat2_lbl.textContent = t.stat2_lbl;
+      refs.stat3_lbl.textContent = t.stat3_lbl;
+      refs.services_title.textContent = t.services_title;
+      refs.about_title.textContent = t.about_title;
+      refs.projects_title.textContent = t.projects_title;
+      refs.team_title.textContent = t.team_title;
+      refs.contact_title.textContent = t.contact_title;
+    }
+    toggle.addEventListener('click', ()=>{ lang = lang==='ar'?'en':'ar'; applyLang(lang); });
+
+    // قائمة الجوال
+    const menu = document.getElementById('menu');
+    const menuToggle = document.getElementById('menuToggle');
+    menuToggle.addEventListener('click', ()=>{
+      const opened = menu.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', opened ? 'true' : 'false');
+    });
+
+    applyLang(lang);
+  </script>
 </body>
 </html>
