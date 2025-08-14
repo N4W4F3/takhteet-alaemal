@@ -36,7 +36,7 @@
     .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
     .chip{display:inline-flex;align-items:center;gap:8px;font-size:12px;padding:6px 12px;border-radius:999px;background:#fff6e6;border:1px solid var(--line);color:#7a6a4a}
 
-    /* ===== NAV (RTL/LTR aware) ===== */
+    /* ===== NAV ===== */
     header{
       position:fixed; inset-block-start:0; inset-inline:0; z-index:40;
       background:transparent; border-block-end:1px solid transparent;
@@ -53,17 +53,15 @@
     header.scrolled .nav{padding-block:8px}
 
     .brand{display:flex;align-items:center;gap:14px}
-    .brand img{
-      inline-size:80px; block-size:80px; object-fit:contain; border-radius:12px;
-      transition: inline-size .3s ease, block-size .3s ease, transform .3s ease;
-    }
+    .brand img{inline-size:80px; block-size:80px; object-fit:contain; border-radius:12px; transition:inline-size .3s, block-size .3s}
     header.scrolled .brand img{inline-size:64px; block-size:64px}
     .brand h1{margin:0;font-size:20px;letter-spacing:.3px;transition:color .3s ease}
 
-    nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
+    nav ul{display:flex;align-items:center;gap:18px;list-style:none;margin:0;padding:0}
     nav a{
+      display:inline-flex;align-items:center;justify-content:center;
       padding:10px 14px;border-radius:999px;transition:background .2s,color .2s;
-      font-size:18px; font-weight:700; letter-spacing:.2px;
+      font-size:18px;font-weight:700;letter-spacing:.2px;line-height:1;
     }
     nav a.active, nav a:hover{background:var(--hi)}
     header:not(.scrolled) .brand h1,
@@ -72,6 +70,16 @@
     header:not(.scrolled) .btn.ghost:hover{ background:rgba(255,255,255,.22); }
     header:not(.scrolled) nav a.active,
     header:not(.scrolled) nav a:hover{ background:rgba(241,215,156,.35) }
+
+    /* أيقونة تسجيل الدخول */
+    .icon-btn{
+      display:inline-grid; place-items:center;
+      inline-size:42px; block-size:42px; border-radius:50%;
+      border:1px solid var(--line); background:rgba(255,255,255,.6);
+      color:#2b3135; transition:.2s; box-shadow:var(--shadow)
+    }
+    .icon-btn:hover{transform:translateY(-2px)}
+    header:not(.scrolled) .icon-btn{ background:rgba(255,255,255,.18); color:#fff; border-color:rgba(255,255,255,.6) }
 
     .burger{display:none;gap:6px;background:transparent;border:1px solid var(--line);padding:8px 10px;border-radius:10px;color:var(--text)}
     .burger span{inline-size:18px; block-size:2px; background:currentColor; display:block}
@@ -132,18 +140,13 @@
     .dot{inline-size:10px;block-size:10px;border-radius:50%}
     .dot.free{background:#0ea5a0}.dot.busy{background:#c26d3b}.dot.mine{background:#cfb990}
 
-    /* قوائم نقطية تعمل RTL/LTR بشكل منطقي */
+    /* قوائم نقطية تعمل RTL/LTR */
     ul{padding-inline-start:18px}
 
-    /* ===== دعم LTR بشكل نظيف ===== */
-    html[dir="ltr"] body{ text-align:left }
-    html[dir="ltr"] .section-title,
-    html[dir="ltr"] .card h3,
-    html[dir="ltr"] p,
-    html[dir="ltr"] li{ text-align:left }
-    /* الهيدر والقائمة */
-    html[dir="ltr"] nav ul{ flex-direction:row }
-    /* على الجوال */
+    /* ===== LTR tidy ===== */
+    html[dir="ltr"] body, html[dir="ltr"] .section-title,
+    html[dir="ltr"] .card h3, html[dir="ltr"] p, html[dir="ltr"] li { text-align:left }
+    html[dir="ltr"] nav ul{flex-direction:row}
     @media (max-width:920px){
       .burger{display:inline-flex}
       nav ul{position:absolute;inset-inline:4%;inset-block-start:64px;padding:14px;border:1px solid var(--line);border-radius:16px;background:#fffaf1;display:none;flex-direction:column;gap:8px}
@@ -160,7 +163,6 @@
       .brand img{inline-size:64px;block-size:64px}
       header.scrolled .brand img{inline-size:56px;block-size:56px}
     }
-
     /* ظهور */
     .reveal{opacity:0;transform:translateY(12px);transition:.6s ease}
     .reveal.in{opacity:1;transform:none}
@@ -176,7 +178,7 @@
         <img src="assets/logo.png" alt="شعار تخطيط الأعمال" />
         <h1 id="brand">تخطيط الأعمال</h1>
       </div>
-      <nav aria-label="التنقل الرئيسي">
+      <nav aria-label="Main Navigation">
         <ul id="menu">
           <li><a href="#home" class="active" id="nav_home">الرئيسية</a></li>
           <li><a href="#services" id="nav_services">الخدمات</a></li>
@@ -187,8 +189,13 @@
           <li><a href="#contact" id="nav_contact">اتصل بنا</a></li>
         </ul>
       </nav>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button id="loginBtn" class="btn ghost" style="padding:8px 14px">تسجيل الدخول</button>
+      <div style="display:flex;gap:10px;align-items:center">
+        <!-- أيقونة تسجيل الدخول -->
+        <button id="loginBtn" class="icon-btn" aria-label="تسجيل الدخول" title="تسجيل الدخول">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
         <button id="langToggle" class="btn ghost" style="padding:8px 14px">EN</button>
         <button class="burger" id="menuToggle" aria-label="فتح القائمة" aria-expanded="false"><span></span><span></span><span></span></button>
       </div>
@@ -222,37 +229,37 @@
   <!-- الخدمات -->
   <section id="services">
     <div class="container">
-      <h2 class="section-title reveal">خدماتنا</h2>
-      <p class="muted reveal">حلول تغطي دورة حياة المشروع كاملة: من الفكرة وحتى التسليم والتشغيل.</p>
+      <h2 class="section-title reveal" id="services_title">خدماتنا</h2>
+      <p class="muted reveal" id="services_sub">حلول تغطي دورة حياة المشروع كاملة: من الفكرة وحتى التسليم والتشغيل.</p>
       <div class="grid grid-3">
         <article class="card reveal">
-          <span class="chip">إدارة المشاريع</span>
-          <h3>تخطيط ومراقبة وتكلفة</h3>
+          <span class="chip" id="s1_chip">إدارة المشاريع</span>
+          <h3 id="s1_title">تخطيط ومراقبة وتكلفة</h3>
           <ul class="muted">
-            <li>خطة أساسية وجداول (Primavera/MS Project)</li>
-            <li>تقارير مؤشرات الأداء وEVA</li>
-            <li>ضبط الميزانية والقيمة المكتسبة</li>
-            <li>إدارة المخاطر والعقود والتغيير</li>
+            <li id="s1_li1">خطة أساسية وجداول (Primavera/MS Project)</li>
+            <li id="s1_li2">تقارير مؤشرات الأداء وEVA</li>
+            <li id="s1_li3">ضبط الميزانية والقيمة المكتسبة</li>
+            <li id="s1_li4">إدارة المخاطر والعقود والتغيير</li>
           </ul>
         </article>
         <article class="card reveal">
-          <span class="chip">الخدمات الفنية</span>
-          <h3>مخططات ومستندات وامتثال</h3>
+          <span class="chip" id="s2_chip">الخدمات الفنية</span>
+          <h3 id="s2_title">مخططات ومستندات وامتثال</h3>
           <ul class="muted">
-            <li>Shop Drawings لجميع التخصصات</li>
-            <li>حصر كميات وتسعير وBOQ</li>
-            <li>ملفات مناقصات ومعايير الجهات</li>
-            <li>مراجعة تصميم وValue Engineering</li>
+            <li id="s2_li1">Shop Drawings لجميع التخصصات</li>
+            <li id="s2_li2">حصر كميات وتسعير وBOQ</li>
+            <li id="s2_li3">ملفات مناقصات ومعايير الجهات</li>
+            <li id="s2_li4">مراجعة تصميم وValue Engineering</li>
           </ul>
         </article>
         <article class="card reveal">
-          <span class="chip">التنفيذ</span>
-          <h3>إشراف وتسليم متكامل</h3>
+          <span class="chip" id="s3_chip">التنفيذ</span>
+          <h3 id="s3_title">إشراف وتسليم متكامل</h3>
           <ul class="muted">
-            <li>مدني/إنشائي ومعماري وMEP</li>
-            <li>جودة وسلامة وحوكمة HSE</li>
-            <li>تتبع تقدم الأعمال وتقارير أسبوعية/شهرية</li>
-            <li>اختبارات وتشغيل وتسليم نهائي</li>
+            <li id="s3_li1">مدني/إنشائي ومعماري وMEP</li>
+            <li id="s3_li2">جودة وسلامة وحوكمة HSE</li>
+            <li id="s3_li3">تتبع تقدم الأعمال وتقارير أسبوعية/شهرية</li>
+            <li id="s3_li4">اختبارات وتشغيل وتسليم نهائي</li>
           </ul>
         </article>
       </div>
@@ -262,26 +269,26 @@
   <!-- من نحن -->
   <section id="about">
     <div class="container">
-      <h2 class="section-title reveal">من نحن</h2>
+      <h2 class="section-title reveal" id="about_title">من نحن</h2>
       <div class="grid grid-2">
         <div class="card reveal">
-          <h3>رؤيتنا</h3>
-          <p class="muted">أن نكون جهة رائدة في إدارة المشاريع والمقاولات، حيث تُترجم الرؤية إلى تنفيذ بكفاءة وشفافية ومعايير جودة عالية.</p>
+          <h3 id="a1_title">رؤيتنا</h3>
+          <p class="muted" id="a1_p">أن نكون جهة رائدة في إدارة المشاريع والمقاولات، حيث تُترجم الرؤية إلى تنفيذ بكفاءة وشفافية ومعايير جودة عالية.</p>
         </div>
         <div class="card reveal">
-          <h3>رسالتنا</h3>
-          <p class="muted">تمكين نجاح المشاريع عبر التخطيط الاستراتيجي والخبرة الفنية والتنفيذ المنضبط؛ مع الحفاظ على الجودة والامتثال والكفاءة.</p>
+          <h3 id="a2_title">رسالتنا</h3>
+          <p class="muted" id="a2_p">تمكين نجاح المشاريع عبر التخطيط الاستراتيجي والخبرة الفنية والتنفيذ المنضبط؛ مع الحفاظ على الجودة والامتثال والكفاءة.</p>
         </div>
         <div class="card reveal">
-          <h3>قيمنا</h3>
-          <p class="muted">الابتكار • النزاهة • التعاون • التميّز</p>
+          <h3 id="a3_title">قيمنا</h3>
+          <p class="muted" id="a3_p">الابتكار • النزاهة • التعاون • التميّز</p>
         </div>
         <div class="card reveal">
-          <h3>لماذا نحن؟</h3>
+          <h3 id="a4_title">لماذا نحن؟</h3>
           <ul class="muted">
-            <li>نهج متكامل من المكتب الفني إلى الموقع</li>
-            <li>حوكمة جودة وسلامة صارمة</li>
-            <li>تواصل شفاف وتقارير قياسية</li>
+            <li id="a4_li1">نهج متكامل من المكتب الفني إلى الموقع</li>
+            <li id="a4_li2">حوكمة جودة وسلامة صارمة</li>
+            <li id="a4_li3">تواصل شفاف وتقارير قياسية</li>
           </ul>
         </div>
       </div>
@@ -291,20 +298,20 @@
   <!-- المشاريع -->
   <section id="projects">
     <div class="container">
-      <h2 class="section-title reveal">مشاريع مختارة</h2>
-      <p class="muted reveal">عينات موجزة توضح نطاق أعمالنا (أمثلة قابلة للتبديل لاحقًا بالصور الحقيقية).</p>
+      <h2 class="section-title reveal" id="projects_title">مشاريع مختارة</h2>
+      <p class="muted reveal" id="projects_sub">عينات موجزة توضح نطاق أعمالنا (أمثلة قابلة للتبديل لاحقًا بالصور الحقيقية).</p>
       <div class="gallery">
         <figure class="tile reveal" style="grid-column:span 6">
           <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop" alt="بنية تحتية – إشراف"/>
-          <figcaption class="caption"><strong>إشراف بنية تحتية مائية</strong><br><small>مكتب إدارة مشروع ومكتب فني</small></figcaption>
+          <figcaption class="caption"><strong id="p1_t">إشراف بنية تحتية مائية</strong><br><small id="p1_s">مكتب إدارة مشروع ومكتب فني</small></figcaption>
         </figure>
         <figure class="tile reveal" style="grid-column:span 3">
           <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=800&auto=format&fit=crop" alt="دعم فني لحدث"/>
-          <figcaption class="caption"><strong>دعم فني وطاقم – فعالية</strong></figcaption>
+          <figcaption class="caption"><strong id="p2_t">دعم فني وطاقم – فعالية</strong></figcaption>
         </figure>
         <figure class="tile reveal" style="grid-column:span 3">
           <img src="https://images.unsplash.com/photo-1529429612779-c8e40ef2f36b?q=80&w=800&auto=format&fit=crop" alt="خدمات تعاقدية"/>
-          <figcaption class="caption"><strong>خدمات تعاقدية واستشارية</strong></figcaption>
+          <figcaption class="caption"><strong id="p3_t">خدمات تعاقدية واستشارية</strong></figcaption>
         </figure>
       </div>
     </div>
@@ -313,31 +320,31 @@
   <!-- حجز اجتماع -->
   <section id="booking">
     <div class="container">
-      <h2 class="section-title reveal">حجز اجتماع</h2>
-      <p class="muted reveal">احجز موعدًا يناسبك — المواعيد المحجوزة تظهر تلقائيًا لتفادي التعارض.</p>
+      <h2 class="section-title reveal" id="booking_title">حجز اجتماع</h2>
+      <p class="muted reveal" id="booking_sub">احجز موعدًا يناسبك — المواعيد المحجوزة تظهر تلقائيًا لتفادي التعارض.</p>
       <div class="booking-wrap">
         <div class="booking-grid">
           <div class="booking-card reveal">
-            <h3 style="margin:0 0 8px">الجدولة المباشرة</h3>
-            <p class="muted" style="margin-top:0">استبدل الرابط أدناه برابط صفحة حجزك (Calendly/TidyCal):</p>
+            <h3 style="margin:0 0 8px" id="bk1_t">الجدولة المباشرة</h3>
+            <p class="muted" style="margin-top:0" id="bk1_p">استبدل الرابط أدناه برابط صفحة حجزك (Calendly/TidyCal):</p>
             <div style="position:relative; padding-bottom: 70vh; height:0; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#fff">
               <iframe title="حجز اجتماع" src="https://calendly.com/your-username/30min" style="position:absolute; inset:0; width:100%; height:100%; border:0;" loading="lazy"></iframe>
             </div>
             <div class="booking-legend" style="margin-top:10px">
-              <span class="dot free"></span> متاح
-              <span class="dot busy" style="margin-inline-start:10px"></span> محجوز
+              <span class="dot free"></span> <span id="bk_free">متاح</span>
+              <span class="dot busy" style="margin-inline-start:10px"></span> <span id="bk_busy">محجوز</span>
             </div>
           </div>
           <div class="booking-card reveal">
-            <h3 style="margin:0 0 8px">ملاحظات الحجز</h3>
+            <h3 style="margin:0 0 8px" id="bk2_t">ملاحظات الحجز</h3>
             <ul class="muted">
-              <li>يمكنك الاختيار بين 30/45/60 دقيقة من صفحة الحجز.</li>
-              <li>عند حجز عميل آخر لنفس الوقت سيظهر تلقائيًا كمحجوز.</li>
-              <li>لاحقًا سنربط الحجز مباشرة بقاعدة بيانات وسجل دخول (Supabase) لعرض لوح تحكم.</li>
+              <li id="bk_li1">يمكنك الاختيار بين 30/45/60 دقيقة من صفحة الحجز.</li>
+              <li id="bk_li2">عند حجز عميل آخر لنفس الوقت سيظهر تلقائيًا كمحجوز.</li>
+              <li id="bk_li3">لاحقًا سنربط الحجز مباشرة بقاعدة بيانات وسجل دخول (Supabase) لعرض لوح تحكم.</li>
             </ul>
             <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-              <a class="btn" href="#contact">تواصل للاستفسار</a>
-              <a class="btn ghost" href="#home">العودة للرئيسية</a>
+              <a class="btn" href="#contact" id="bk_cta1">تواصل للاستفسار</a>
+              <a class="btn ghost" href="#home" id="bk_cta2">العودة للرئيسية</a>
             </div>
           </div>
         </div>
@@ -348,11 +355,20 @@
   <!-- الفريق -->
   <section id="team">
     <div class="container">
-      <h2 class="section-title reveal">فريقنا</h2>
+      <h2 class="section-title reveal" id="team_title">فريقنا</h2>
       <div class="grid grid-3">
-        <article class="card reveal"><h3>م. رمضان السيد</h3><p class="muted">مدير مشاريع أول – 27+ سنة خبرة في البنية التحتية والمشاريع الحكومية.</p></article>
-        <article class="card reveal"><h3>م. محمد السيد | PMP®</h3><p class="muted">مهندس تخطيط – جداول، ضبط تكلفة، وتحليل أداء لمشاريع كبرى.</p></article>
-        <article class="card reveal"><h3>م. شريف براضية</h3><p class="muted">مهندس ميكانيكا أول | MEP – خبرة 13+ سنة في HVAC وإطفاء ومياه.</p></article>
+        <article class="card reveal">
+          <h3 id="t1_name">م. رمضان السيد</h3>
+          <p class="muted" id="t1_desc">مدير مشاريع أول – 27+ سنة خبرة في البنية التحتية والمشاريع الحكومية.</p>
+        </article>
+        <article class="card reveal">
+          <h3 id="t2_name">م. محمد السيد | PMP®</h3>
+          <p class="muted" id="t2_desc">مهندس تخطيط – جداول، ضبط تكلفة، وتحليل أداء لمشاريع كبرى.</p>
+        </article>
+        <article class="card reveal">
+          <h3 id="t3_name">م. شريف براضية</h3>
+          <p class="muted" id="t3_desc">مهندس ميكانيكا أول | MEP – خبرة 13+ سنة في HVAC وإطفاء ومياه.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -360,20 +376,20 @@
   <!-- تواصل -->
   <section id="contact">
     <div class="container">
-      <h2 class="section-title reveal">اتصل بنا</h2>
+      <h2 class="section-title reveal" id="contact_title">اتصل بنا</h2>
       <div class="grid grid-2">
         <div class="card reveal">
           <form id="contactForm">
-            <input required name="name" placeholder="الاسم الكامل" />
-            <input required type="email" name="email" placeholder="البريد الإلكتروني" />
-            <textarea required name="message" placeholder="كيف نقدر نخدمك؟"></textarea>
-            <button class="btn" type="submit">إرسال</button>
+            <input required name="name" placeholder="الاسم الكامل" id="f_name" />
+            <input required type="email" name="email" placeholder="البريد الإلكتروني" id="f_email" />
+            <textarea required name="message" placeholder="كيف نقدر نخدمك؟" id="f_msg"></textarea>
+            <button class="btn" type="submit" id="f_submit">إرسال</button>
           </form>
-          <p class="muted">نموذج بسيط الآن؛ يمكن ربطه بـ CRM أو Google Sheets لاحقًا.</p>
+          <p class="muted" id="contact_note">نموذج بسيط الآن؛ يمكن ربطه بـ CRM أو Google Sheets لاحقًا.</p>
         </div>
         <div class="card reveal">
-          <h3>معلومات التواصل</h3>
-          <p class="muted">الهاتف: <a href="tel:+966544428455">+966 54 442 8455</a><br> البريد: <a href="mailto:waseem@tala3mal.com">waseem@tala3mal.com</a><br> العنوان: الرياض، السعودية</p>
+          <h3 id="contact_info_t">معلومات التواصل</h3>
+          <p class="muted" id="contact_info_p">الهاتف: <a href="tel:+966544428455">+966 54 442 8455</a><br> البريد: <a href="mailto:waseem@tala3mal.com">waseem@tala3mal.com</a><br> العنوان: الرياض، السعودية</p>
           <iframe title="خريطة تقريبية" width="100%" height="200" style="border:0;border-radius:12px" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Riyadh&t=&z=12&ie=UTF8&iwloc=&output=embed"></iframe>
         </div>
       </div>
@@ -382,7 +398,7 @@
 
   <footer>
     <div class="container foot">
-      <small>© <span id="y"></span> تخطيط الأعمال. جميع الحقوق محفوظة.</small>
+      <small>© <span id="y"></span> <span id="foot_brand">تخطيط الأعمال</span>. <span id="foot_rights">جميع الحقوق محفوظة.</span></small>
       <div class="social" aria-label="روابط التواصل">
         <a href="#" aria-label="لينكدإن">in</a>
         <a href="#" aria-label="تويتر/إكس">✦</a>
@@ -392,16 +408,16 @@
   </footer>
 
   <!-- نافذة تسجيل الدخول (واجهة فقط) -->
-  <div id="loginModal" class="modal" aria-hidden="true" role="dialog" aria-label="تسجيل الدخول" style="display:none">
-    <div class="panel">
-      <h3>تسجيل الدخول</h3>
-      <p class="muted" style="margin-top:0">نسخة واجهة فقط — سنربطها لاحقًا بنظام حسابات (Supabase).</p>
+  <div id="loginModal" class="modal" aria-hidden="true" role="dialog" aria-label="تسجيل الدخول" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:60; align-items:center; justify-content:center;">
+    <div class="panel" style="background:#fffaf1; border:1px solid var(--line); border-radius:16px; padding:20px; width:min(420px,92%); box-shadow:var(--shadow)">
+      <h3 id="login_title">تسجيل الدخول</h3>
+      <p class="muted" style="margin-top:0" id="login_note">نسخة واجهة فقط — سنربطها لاحقًا بنظام حسابات (Supabase).</p>
       <form id="loginForm" style="display:grid;gap:10px">
         <input id="loginEmail" type="email" placeholder="البريد الإلكتروني" required>
         <input id="loginPass" type="password" placeholder="كلمة المرور" required>
         <div class="actions" style="display:flex;gap:10px;justify-content:flex-end">
           <button type="button" class="btn ghost" id="closeLogin">إلغاء</button>
-          <button type="submit" class="btn">دخول</button>
+          <button type="submit" class="btn" id="login_submit">دخول</button>
         </div>
       </form>
     </div>
@@ -444,60 +460,136 @@
     },{threshold:.15});
     document.querySelectorAll('.reveal').forEach(el=>appear.observe(el));
 
-    // i18n
-    const i18n = {
-      ar: { brand:'تخطيط الأعمال', kicker:'نحو بناءٍ يليق بطموحك',
+    // محتوى متعدد اللغات
+    const I18N = {
+      ar:{
+        brand:'تخطيط الأعمال', foot_brand:'تخطيط الأعمال', foot_rights:'جميع الحقوق محفوظة.',
+        kicker:'نحو بناءٍ يليق بطموحك',
         hero_title:'نحو مشاريعٍ مستدامة بلمسة ساحلية <span style="color:var(--brand-2)">ومعايير عالمية</span>',
         hero_lead:'حلول متكاملة منذ التخطيط والضبط وحتى التنفيذ والتشغيل — جودة، امتثال، وسلامة.',
-        nav_home:'الرئيسية', nav_services:'الخدمات', nav_about:'من نحن', nav_projects:'المشاريع', nav_team:'الفريق', nav_contact:'اتصل بنا', nav_booking:'حجز اجتماع',
-        cta_primary:'اكتشف خدماتنا', cta_secondary:'تصفّح مشاريعنا',
-        stat1_lbl:'مشاريع', stat2_lbl:'استشاريين خبراء', stat3_lbl:'سنوات خبرة',
-        services_title:'خدماتنا', about_title:'من نحن', projects_title:'مشاريع مختارة', team_title:'فريقنا', contact_title:'اتصل بنا'
+        nav:{home:'الرئيسية',services:'الخدمات',about:'من نحن',projects:'المشاريع',team:'الفريق',booking:'حجز اجتماع',contact:'اتصل بنا'},
+        ctas:{primary:'اكتشف خدماتنا', secondary:'تصفّح مشاريعنا'},
+        stats:{s1:'مشاريع',s2:'استشاريين خبراء',s3:'سنوات خبرة'},
+        services_title:'خدماتنا', services_sub:'حلول تغطي دورة حياة المشروع كاملة: من الفكرة وحتى التسليم والتشغيل.',
+        s1_chip:'إدارة المشاريع', s1_title:'تخطيط ومراقبة وتكلفة',
+        s1_li1:'خطة أساسية وجداول (Primavera/MS Project)', s1_li2:'تقارير مؤشرات الأداء وEVA', s1_li3:'ضبط الميزانية والقيمة المكتسبة', s1_li4:'إدارة المخاطر والعقود والتغيير',
+        s2_chip:'الخدمات الفنية', s2_title:'مخططات ومستندات وامتثال',
+        s2_li1:'Shop Drawings لجميع التخصصات', s2_li2:'حصر كميات وتسعير وBOQ', s2_li3:'ملفات مناقصات ومعايير الجهات', s2_li4:'مراجعة تصميم وValue Engineering',
+        s3_chip:'التنفيذ', s3_title:'إشراف وتسليم متكامل',
+        s3_li1:'مدني/إنشائي ومعماري وMEP', s3_li2:'جودة وسلامة وحوكمة HSE', s3_li3:'تتبع تقدم الأعمال وتقارير أسبوعية/شهرية', s3_li4:'اختبارات وتشغيل وتسليم نهائي',
+        about_title:'من نحن',
+        a1_title:'رؤيتنا', a1_p:'أن نكون جهة رائدة في إدارة المشاريع والمقاولات، حيث تُترجم الرؤية إلى تنفيذ بكفاءة وشفافية ومعايير جودة عالية.',
+        a2_title:'رسالتنا', a2_p:'تمكين نجاح المشاريع عبر التخطيط الاستراتيجي والخبرة الفنية والتنفيذ المنضبط؛ مع الحفاظ على الجودة والامتثال والكفاءة.',
+        a3_title:'قيمنا',   a3_p:'الابتكار • النزاهة • التعاون • التميّز',
+        a4_title:'لماذا نحن؟', a4_li1:'نهج متكامل من المكتب الفني إلى الموقع', a4_li2:'حوكمة جودة وسلامة صارمة', a4_li3:'تواصل شفاف وتقارير قياسية',
+        projects_title:'مشاريع مختارة', projects_sub:'عينات موجزة توضح نطاق أعمالنا (أمثلة قابلة للتبديل لاحقًا بالصور الحقيقية).',
+        p1_t:'إشراف بنية تحتية مائية', p1_s:'مكتب إدارة مشروع ومكتب فني', p2_t:'دعم فني وطاقم – فعالية', p3_t:'خدمات تعاقدية واستشارية',
+        booking_title:'حجز اجتماع', booking_sub:'احجز موعدًا يناسبك — المواعيد المحجوزة تظهر تلقائيًا لتفادي التعارض.',
+        bk1_t:'الجدولة المباشرة', bk1_p:'استبدل الرابط أدناه برابط صفحة حجزك (Calendly/TidyCal):', bk_free:'متاح', bk_busy:'محجوز',
+        bk2_t:'ملاحظات الحجز', bk_li1:'يمكنك الاختيار بين 30/45/60 دقيقة من صفحة الحجز.', bk_li2:'عند حجز عميل آخر لنفس الوقت سيظهر تلقائيًا كمحجوز.', bk_li3:'لاحقًا سنربط الحجز مباشرة بقاعدة بيانات وسجل دخول (Supabase) لعرض لوح تحكم.',
+        bk_cta1:'تواصل للاستفسار', bk_cta2:'العودة للرئيسية',
+        team_title:'فريقنا',
+        t1_name:'م. رمضان السيد', t1_desc:'مدير مشاريع أول – 27+ سنة خبرة في البنية التحتية والمشاريع الحكومية.',
+        t2_name:'م. محمد السيد | PMP®', t2_desc:'مهندس تخطيط – جداول، ضبط تكلفة، وتحليل أداء لمشاريع كبرى.',
+        t3_name:'م. شريف براضية', t3_desc:'مهندس ميكانيكا أول | MEP – خبرة 13+ سنة في HVAC وإطفاء ومياه.',
+        contact_title:'اتصل بنا', contact_note:'نموذج بسيط الآن؛ يمكن ربطه بـ CRM أو Google Sheets لاحقًا.',
+        contact_info_t:'معلومات التواصل',
+        contact_info_p:'الهاتف: <a href="tel:+966544428455">+966 54 442 8455</a><br> البريد: <a href="mailto:waseem@tala3mal.com">waseem@tala3mal.com</a><br> العنوان: الرياض، السعودية',
+        form:{name:'الاسم الكامل', email:'البريد الإلكتروني', msg:'كيف نقدر نخدمك؟', submit:'إرسال'},
+        login:{title:'تسجيل الدخول', note:'نسخة واجهة فقط — سنربطها لاحقًا بنظام حسابات (Supabase).', cancel:'إلغاء', submit:'دخول'}
       },
-      en: { brand:'TAKHTEET ALAEMAL', kicker:'Built to match your ambition',
+      en:{
+        brand:'TAKHTEET ALAEMAL', foot_brand:'TAKHTEET ALAEMAL', foot_rights:'All rights reserved.',
+        kicker:'Built to match your ambition',
         hero_title:'Sustainable, coastal-inspired projects <span style="color:var(--brand-2)">to global standards</span>',
         hero_lead:'End-to-end solutions from planning & controls to execution and operations — quality, compliance & safety.',
-        nav_home:'Home', nav_services:'Services', nav_about:'About', nav_projects:'Projects', nav_team:'Team', nav_contact:'Contact', nav_booking:'Book a Meeting',
-        cta_primary:'Explore Services', cta_secondary:'See Projects',
-        stat1_lbl:'Projects', stat2_lbl:'Expert Consultants', stat3_lbl:'Years of Experience',
-        services_title:'Our Services', about_title:'About Us', projects_title:'Featured Projects', team_title:'Our Team', contact_title:'Contact Us'
+        nav:{home:'Home',services:'Services',about:'About',projects:'Projects',team:'Team',booking:'Book a Meeting',contact:'Contact'},
+        ctas:{primary:'Explore Services', secondary:'See Projects'},
+        stats:{s1:'Projects',s2:'Expert Consultants',s3:'Years of Experience'},
+        services_title:'Our Services', services_sub:'Full project-lifecycle coverage: from concept to handover and operations.',
+        s1_chip:'Project Management', s1_title:'Planning, Controls & Cost',
+        s1_li1:'Baselines & schedules (Primavera/MS Project)', s1_li2:'KPI reporting & EVA', s1_li3:'Budget control & Earned Value', s1_li4:'Risk, contracts & change management',
+        s2_chip:'Technical Services', s2_title:'Shop Drawings, Docs & Compliance',
+        s2_li1:'Shop drawings for all disciplines', s2_li2:'Quantity take-off, pricing & BOQ', s2_li3:'Tender packages & authority standards', s2_li4:'Design review & Value Engineering',
+        s3_chip:'Execution', s3_title:'Supervision & Turnkey Handover',
+        s3_li1:'Civil/Structural, Architectural & MEP', s3_li2:'Quality, Safety & HSE Governance', s3_li3:'Progress tracking & weekly/monthly reports', s3_li4:'Testing, commissioning & final handover',
+        about_title:'About Us',
+        a1_title:'Our Vision', a1_p:'To be a regional leader in project management and contracting, translating vision into efficient, transparent delivery with high quality standards.',
+        a2_title:'Our Mission', a2_p:'Enable project success through strategic planning, technical expertise and disciplined execution while ensuring quality, compliance and efficiency.',
+        a3_title:'Our Values', a3_p:'Innovation • Integrity • Collaboration • Excellence',
+        a4_title:'Why Us?', a4_li1:'End-to-end approach from technical office to site', a4_li2:'Strict quality & safety governance', a4_li3:'Transparent communication & standard reports',
+        projects_title:'Featured Projects', projects_sub:'Short samples that illustrate our scope (replace with real photos later).',
+        p1_t:'Water-Infrastructure Supervision', p1_s:'PMO & Technical Office', p2_t:'Technical crew for an event', p3_t:'Contractual & Advisory services',
+        booking_title:'Book a Meeting', booking_sub:'Pick a time that works — conflicting slots will show as busy automatically.',
+        bk1_t:'Direct Scheduling', bk1_p:'Replace the link below with your own booking page (Calendly/TidyCal):', bk_free:'Free', bk_busy:'Busy',
+        bk2_t:'Booking Notes', bk_li1:'Choose 30/45/60 min from the booking page.', bk_li2:'If another client books that slot, it instantly shows as busy.', bk_li3:'Later we’ll connect bookings to Supabase auth + a dashboard.',
+        bk_cta1:'Contact us', bk_cta2:'Back to Home',
+        team_title:'Our Team',
+        t1_name:'Eng. Ramadan Elsayed', t1_desc:'Senior Project Manager — 27+ years in infrastructure & government projects.',
+        t2_name:'Eng. Mohammed Elsayed | PMP®', t2_desc:'Planning Engineer — schedules, cost control & performance analytics.',
+        t3_name:'Eng. Sherif Baradia', t3_desc:'Senior Mechanical Engineer (MEP) — 13+ years in HVAC, firefighting & water.',
+        contact_title:'Contact Us', contact_note:'Simple form for now; can be connected to a CRM or Google Sheets later.',
+        contact_info_t:'Contact Info',
+        contact_info_p:'Phone: <a href="tel:+966544428455">+966 54 442 8455</a><br> Email: <a href="mailto:waseem@tala3mal.com">waseem@tala3mal.com</a><br> Address: Riyadh, Saudi Arabia',
+        form:{name:'Full name', email:'Email address', msg:'How can we help?', submit:'Send'},
+        login:{title:'Sign in', note:'UI only for now — we’ll hook it to Supabase later.', cancel:'Cancel', submit:'Sign in'}
       }
     };
 
-    const refs = {
-      brand: document.getElementById('brand'), kicker: document.getElementById('kicker'),
-      hero_title: document.getElementById('hero_title'), hero_lead: document.getElementById('hero_lead'),
-      nav_home: document.getElementById('nav_home'), nav_services: document.getElementById('nav_services'),
-      nav_about: document.getElementById('nav_about'), nav_projects: document.getElementById('nav_projects'),
-      nav_team: document.getElementById('nav_team'), nav_contact: document.getElementById('nav_contact'),
-      nav_booking: document.getElementById('nav_booking'),
-      cta_primary: document.getElementById('cta_primary'), cta_secondary: document.getElementById('cta_secondary'),
-      stat1_lbl: document.getElementById('stat1_lbl'), stat2_lbl: document.getElementById('stat2_lbl'), stat3_lbl: document.getElementById('stat3_lbl'),
-      services_title: document.querySelector('#services .section-title'),
-      about_title: document.querySelector('#about .section-title'),
-      projects_title: document.querySelector('#projects .section-title'),
-      team_title: document.querySelector('#team .section-title'),
-      contact_title: document.querySelector('#contact .section-title')
-    };
+    const R = id=>document.getElementById(id);
+    const setHTML = (id, v)=>{ const el=R(id); if(el) el.innerHTML=v; }
+    const setText = (id, v)=>{ const el=R(id); if(el) el.textContent=v; }
 
     let lang = 'ar';
-    const toggle = document.getElementById('langToggle');
+    const toggle = R('langToggle');
+
     function applyLang(l){
-      const t = i18n[l]; if(!t) return;
+      const t = I18N[l]; if(!t) return;
       document.documentElement.lang = l === 'ar' ? 'ar' : 'en';
       document.documentElement.dir  = l === 'ar' ? 'rtl' : 'ltr';
       toggle.textContent = l === 'ar' ? 'EN' : 'عربي';
-      // نصوص
-      refs.brand.textContent = t.brand; refs.kicker.textContent = t.kicker;
-      refs.hero_title.innerHTML = t.hero_title; refs.hero_lead.textContent = t.hero_lead;
-      refs.nav_home.textContent = t.nav_home; refs.nav_services.textContent = t.nav_services;
-      refs.nav_about.textContent = t.nav_about; refs.nav_projects.textContent = t.nav_projects;
-      refs.nav_team.textContent = t.nav_team; refs.nav_contact.textContent = t.nav_contact;
-      refs.nav_booking.textContent = t.nav_booking;
-      refs.cta_primary.textContent = t.cta_primary; refs.cta_secondary.textContent = t.cta_secondary;
-      refs.stat1_lbl.textContent = t.stat1_lbl; refs.stat2_lbl.textContent = t.stat2_lbl; refs.stat3_lbl.textContent = t.stat3_lbl;
-      refs.services_title.textContent = t.services_title; refs.about_title.textContent = t.about_title;
-      refs.projects_title.textContent = t.projects_title; refs.team_title.textContent = t.team_title; refs.contact_title.textContent = t.contact_title;
+
+      setText('brand', t.brand); setText('foot_brand', t.foot_brand); setText('foot_rights', t.foot_rights);
+      setText('kicker', t.kicker); setHTML('hero_title', t.hero_title); setText('hero_lead', t.hero_lead);
+      setText('nav_home', t.nav.home); setText('nav_services', t.nav.services); setText('nav_about', t.nav.about);
+      setText('nav_projects', t.nav.projects); setText('nav_team', t.nav.team); setText('nav_booking', t.nav.booking); setText('nav_contact', t.nav.contact);
+      setText('cta_primary', t.ctas.primary); setText('cta_secondary', t.ctas.secondary);
+      setText('stat1_lbl', t.stats.s1); setText('stat2_lbl', t.stats.s2); setText('stat3_lbl', t.stats.s3);
+
+      setText('services_title', t.services_title); setText('services_sub', t.services_sub);
+      setText('s1_chip', t.s1_chip); setText('s1_title', t.s1_title);
+      setText('s1_li1', t.s1_li1); setText('s1_li2', t.s1_li2); setText('s1_li3', t.s1_li3); setText('s1_li4', t.s1_li4);
+      setText('s2_chip', t.s2_chip); setText('s2_title', t.s2_title);
+      setText('s2_li1', t.s2_li1); setText('s2_li2', t.s2_li2); setText('s2_li3', t.s2_li3); setText('s2_li4', t.s2_li4);
+      setText('s3_chip', t.s3_chip); setText('s3_title', t.s3_title);
+      setText('s3_li1', t.s3_li1); setText('s3_li2', t.s3_li2); setText('s3_li3', t.s3_li3); setText('s3_li4', t.s3_li4);
+
+      setText('about_title', t.about_title);
+      setText('a1_title', t.a1_title); setText('a1_p', t.a1_p);
+      setText('a2_title', t.a2_title); setText('a2_p', t.a2_p);
+      setText('a3_title', t.a3_title); setText('a3_p', t.a3_p);
+      setText('a4_title', t.a4_title); setText('a4_li1', t.a4_li1); setText('a4_li2', t.a4_li2); setText('a4_li3', t.a4_li3);
+
+      setText('projects_title', t.projects_title); setText('projects_sub', t.projects_sub);
+      setText('p1_t', t.p1_t); setText('p1_s', t.p1_s); setText('p2_t', t.p2_t); setText('p3_t', t.p3_t);
+
+      setText('booking_title', t.booking_title); setText('booking_sub', t.booking_sub);
+      setText('bk1_t', t.bk1_t); setText('bk1_p', t.bk1_p); setText('bk_free', t.bk_free); setText('bk_busy', t.bk_busy);
+      setText('bk2_t', t.bk2_t); setText('bk_li1', t.bk_li1); setText('bk_li2', t.bk_li2); setText('bk_li3', t.bk_li3);
+      setText('bk_cta1', t.bk_cta1); setText('bk_cta2', t.bk_cta2);
+
+      setText('team_title', t.team_title);
+      setText('t1_name', t.t1_name); setText('t1_desc', t.t1_desc);
+      setText('t2_name', t.t2_name); setText('t2_desc', t.t2_desc);
+      setText('t3_name', t.t3_name); setText('t3_desc', t.t3_desc);
+
+      setText('contact_title', t.contact_title); setText('contact_note', t.contact_note);
+      setText('contact_info_t', t.contact_info_t); R('contact_info_p').innerHTML = t.contact_info_p;
+      R('f_name').placeholder = t.form.name; R('f_email').placeholder = t.form.email; R('f_msg').placeholder = t.form.msg; setText('f_submit', t.form.submit);
+
+      // نافذة الدخول
+      setText('login_title', t.login.title); setText('login_note', t.login.note);
+      setText('login_submit', t.login.submit); R('closeLogin').textContent = t.login.cancel;
     }
     toggle.addEventListener('click', ()=>{ lang = (lang==='ar'?'en':'ar'); applyLang(lang); });
 
@@ -522,7 +614,7 @@
     const onScroll = ()=>{ if(window.scrollY>50){ headerEl.classList.add('scrolled'); } else { headerEl.classList.remove('scrolled'); } };
     window.addEventListener('scroll', onScroll); onScroll();
 
-    // نافذة تسجيل الدخول (واجهة فقط)
+    // نافذة تسجيل الدخول (واجهة)
     const loginBtn = document.getElementById('loginBtn');
     const loginModal = document.getElementById('loginModal');
     const closeLogin = document.getElementById('closeLogin');
@@ -531,7 +623,7 @@
       closeLogin.addEventListener('click', ()=>{ loginModal.style.display='none'; });
       document.getElementById('loginForm').addEventListener('submit', (e)=>{
         e.preventDefault();
-        alert('سيتم ربط تسجيل الدخول لاحقًا بباكند (Supabase) – هذه واجهة تجريبية الآن.');
+        alert(lang==='ar' ? 'سيتم ربط تسجيل الدخول لاحقًا بباكند (Supabase).' : 'Sign-in will be connected to Supabase later.');
         loginModal.style.display='none';
       });
     }
