@@ -13,13 +13,11 @@
   <link rel="icon" href="assets/logo.png" />
   <style>
     :root{
-      /* لوحة رملية/عاجية ساحلية */
       --bg:#f7f3ea; --bg-grad-1:#f3eee3; --bg-grad-2:#efe6d8;
       --card:#fffaf1; --line:#e5dccb; --text:#2b3135; --muted:#6b7280;
       --brand:#cfb990; --brand-2:#0ea5a0; --accent:#c26d3b;
       --radius:20px; --shadow:0 12px 40px rgba(113,86,37,.15);
-      --hi:#f1d79c;           /* أصفر/عاجي أوضح للقوائم */
-      --hi-strong:#e9c878;    /* درجة أغمق قليلاً */
+      --hi:#f1d79c; --hi-strong:#e9c878;
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -32,16 +30,16 @@
     }
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
-    .container{width:min(1200px,92%);margin:auto}
+    .container{width:min(1200px,92%);margin-inline:auto}
     .btn{display:inline-block;padding:12px 22px;border-radius:999px;background:var(--brand);color:#3a3122;font-weight:800;letter-spacing:.2px;box-shadow:var(--shadow);transition:.2s;border:1px solid #d9c9a8}
     .btn:hover{transform:translateY(-2px);filter:saturate(1.05)}
     .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
     .chip{display:inline-flex;align-items:center;gap:8px;font-size:12px;padding:6px 12px;border-radius:999px;background:#fff6e6;border:1px solid var(--line);color:#7a6a4a}
 
-    /* ===================== NAV (مكبر + شفاف مع ألوان صحيحة) ===================== */
+    /* ===== NAV (RTL/LTR aware) ===== */
     header{
-      position:fixed; top:0; left:0; right:0; z-index:40;
-      background:transparent; border-bottom:1px solid transparent;
+      position:fixed; inset-block-start:0; inset-inline:0; z-index:40;
+      background:transparent; border-block-end:1px solid transparent;
       transition: background .3s ease, box-shadow .3s ease, border-color .3s ease;
       backdrop-filter:none;
     }
@@ -51,15 +49,15 @@
       box-shadow:0 6px 20px rgba(113,86,37,.08);
       backdrop-filter:blur(10px);
     }
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0; transition: padding .3s ease}
-    header.scrolled .nav{padding:8px 0}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding-block:12px; transition: padding .3s ease; gap:16px}
+    header.scrolled .nav{padding-block:8px}
 
     .brand{display:flex;align-items:center;gap:14px}
     .brand img{
-      width:80px;height:80px;object-fit:contain;border-radius:12px;
-      transition: width .3s ease, height .3s ease, transform .3s ease;
+      inline-size:80px; block-size:80px; object-fit:contain; border-radius:12px;
+      transition: inline-size .3s ease, block-size .3s ease, transform .3s ease;
     }
-    header.scrolled .brand img{width:64px;height:64px}
+    header.scrolled .brand img{inline-size:64px; block-size:64px}
     .brand h1{margin:0;font-size:20px;letter-spacing:.3px;transition:color .3s ease}
 
     nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
@@ -67,47 +65,34 @@
       padding:10px 14px;border-radius:999px;transition:background .2s,color .2s;
       font-size:18px; font-weight:700; letter-spacing:.2px;
     }
-    /* لون تفعيل/هوفر أوضح (أصفر أغمق) عند الخلفية الفاتحة */
     nav a.active, nav a:hover{background:var(--hi)}
-
-    /* عندما الهيدر شفاف فوق الفيديو: اجعل كل شيء أبيض وواضح */
     header:not(.scrolled) .brand h1,
     header:not(.scrolled) nav a{ color:#fff; }
-    header:not(.scrolled) .btn.ghost{
-      color:#fff; border-color:rgba(255,255,255,.7);
-    }
-    header:not(.scrolled) .btn.ghost:hover{
-      background:rgba(255,255,255,.22);
-    }
-    /* في وضع الشفافية استخدم خلفية أغمق عند الهوفر لإبراز الاختيار */
+    header:not(.scrolled) .btn.ghost{ color:#fff; border-color:rgba(255,255,255,.7); }
+    header:not(.scrolled) .btn.ghost:hover{ background:rgba(255,255,255,.22); }
     header:not(.scrolled) nav a.active,
     header:not(.scrolled) nav a:hover{ background:rgba(241,215,156,.35) }
 
     .burger{display:none;gap:6px;background:transparent;border:1px solid var(--line);padding:8px 10px;border-radius:10px;color:var(--text)}
-    .burger span{width:18px;height:2px;background:currentColor;display:block}
+    .burger span{inline-size:18px; block-size:2px; background:currentColor; display:block}
 
-    /* ===================== HERO (زيادة وضوح الخلفية) ===================== */
-    .hero{position:relative;min-height:90vh;display:grid;place-items:center;border-bottom:1px solid var(--line)}
-    .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.02) brightness(.78)}
+    /* ===== HERO ===== */
+    .hero{position:relative;min-height:90vh;display:grid;place-items:center;border-block-end:1px solid var(--line)}
+    .hero video{position:absolute;inset:0;inline-size:100%;block-size:100%;object-fit:cover;filter:contrast(1.02) brightness(.78)}
     .hero .overlay{
       position:absolute;inset:0;
-      /* زيادة العتمة والتباين بحيث الكلام يبان أوضح */
       background:
         linear-gradient(180deg, rgba(16,26,32,.58) 0%, rgba(16,26,32,.36) 28%, rgba(248,244,236,.78) 100%),
         radial-gradient(900px 500px at 100% -10%, rgba(14,165,160,.18), transparent 60%);
     }
-    .hero .content{position:relative;z-index:2;padding:140px 0 70px}
+    .hero .content{position:relative;z-index:2;padding-block:140px 70px}
     .title{font-size:46px;line-height:1.2;margin:16px 0;color:#1f2937}
     .lead{color:#2b3135;opacity:.92;margin:0 0 18px}
-    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
-    .hero-card{
-      background:rgba(255,250,241,.90); /* أوضح */
-      backdrop-filter:blur(10px);border:1px solid var(--line);
-      padding:22px;border-radius:var(--radius);box-shadow:var(--shadow)
-    }
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-block-start:10px}
+    .hero-card{background:rgba(255,250,241,.90);backdrop-filter:blur(10px);border:1px solid var(--line);padding:22px;border-radius:var(--radius);box-shadow:var(--shadow)}
 
-    /* ===================== أقسام ===================== */
-    section{padding:80px 0;border-bottom:1px solid var(--line);scroll-margin-top:120px}
+    /* ===== Sections ===== */
+    section{padding-block:80px;border-block-end:1px solid var(--line);scroll-margin-block-start:120px}
     .section-title{font-size:32px;margin:0 0 18px}
     .muted{color:var(--muted)}
     .grid{display:grid;gap:18px}
@@ -122,49 +107,58 @@
     .gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
     .tile{position:relative;overflow:hidden;border-radius:16px;background:#fff7e7;border:1px solid var(--line)}
     .tile .caption{position:absolute;inset:auto 0 0 0;padding:12px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.35));color:#fff}
-    .tile img{width:100%;height:220px;object-fit:cover;transition:transform .5s}
+    .tile img{inline-size:100%;block-size:220px;object-fit:cover;transition:transform .5s}
     .tile:hover img{transform:scale(1.06)}
 
     /* نماذج */
     form{display:grid;gap:12px}
-    input,textarea{width:100%;padding:12px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--text)}
-    textarea{min-height:120px;resize:vertical}
+    input,textarea{inline-size:100%;padding:12px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--text)}
+    textarea{min-block-size:120px;resize:vertical}
 
     /* فوتر */
-    footer{padding:40px 0;color:#6a6a6a}
+    footer{padding-block:40px;color:#6a6a6a}
     .foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
     .social{display:flex;gap:12px}
-    .social a{width:36px;height:36px;border-radius:10px;background:#fff3dc;display:grid;place-items:center;border:1px solid var(--line)}
+    .social a{inline-size:36px;block-size:36px;border-radius:10px;background:#fff3dc;display:grid;place-items:center;border:1px solid var(--line)}
 
     /* زر واتساب */
-    .whatsapp{position:fixed;left:18px;bottom:18px;z-index:50;background:#25d366;color:#062a1a;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-weight:900;box-shadow:var(--shadow)}
+    .whatsapp{position:fixed;inset-inline-start:18px;inset-block-end:18px;z-index:50;background:#25d366;color:#062a1a;inline-size:54px;block-size:54px;border-radius:50%;display:grid;place-items:center;font-weight:900;box-shadow:var(--shadow)}
 
-    /* حجز اجتماع (نفس السابق) */
+    /* حجز اجتماع */
     .booking-wrap{display:grid;gap:18px}
     .booking-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
     .booking-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
     .booking-legend{display:flex;gap:10px;align-items:center;font-size:14px;color:#475569}
-    .dot{width:10px;height:10px;border-radius:50%}
+    .dot{inline-size:10px;block-size:10px;border-radius:50%}
     .dot.free{background:#0ea5a0}.dot.busy{background:#c26d3b}.dot.mine{background:#cfb990}
 
-    /* Responsive */
+    /* قوائم نقطية تعمل RTL/LTR بشكل منطقي */
+    ul{padding-inline-start:18px}
+
+    /* ===== دعم LTR بشكل نظيف ===== */
+    html[dir="ltr"] body{ text-align:left }
+    html[dir="ltr"] .section-title,
+    html[dir="ltr"] .card h3,
+    html[dir="ltr"] p,
+    html[dir="ltr"] li{ text-align:left }
+    /* الهيدر والقائمة */
+    html[dir="ltr"] nav ul{ flex-direction:row }
+    /* على الجوال */
     @media (max-width:920px){
       .burger{display:inline-flex}
-      nav ul{position:absolute;top:64px;right:4%;left:4%;padding:14px;border:1px solid var(--line);border-radius:16px;background:#fffaf1;display:none;flex-direction:column;gap:8px}
+      nav ul{position:absolute;inset-inline:4%;inset-block-start:64px;padding:14px;border:1px solid var(--line);border-radius:16px;background:#fffaf1;display:none;flex-direction:column;gap:8px}
       nav ul.open{display:flex}
-      /* على الجوال خليه غامق لسهولة القراءة */
       header:not(.scrolled) nav ul{background:rgba(255,250,241,.96)}
       header:not(.scrolled) nav a{color:var(--text)}
-      header:not(.scrolled) nav a.active,
-      header:not(.scrolled) nav a:hover{background:var(--hi-strong)}
+      header:not(.scrolled) nav a.active, header:not(.scrolled) nav a:hover{background:var(--hi-strong)}
     }
     @media (max-width:1024px){.grid-3{grid-template-columns:repeat(2,1fr)}.title{font-size:36px}}
     @media (max-width:720px){
       .grid-2,.grid-3{grid-template-columns:1fr}
       .hero{min-height:70vh}.title{font-size:32px}
       nav a{font-size:16px;padding:8px 12px}
-      .brand img{width:64px;height:64px}
-      header.scrolled .brand img{width:56px;height:56px}
+      .brand img{inline-size:64px;block-size:64px}
+      header.scrolled .brand img{inline-size:56px;block-size:56px}
     }
 
     /* ظهور */
@@ -175,7 +169,7 @@
 <body>
   <a class="whatsapp" href="https://wa.me/966544428455" target="_blank" aria-label="تواصل واتساب">WA</a>
 
-  <!-- شريط علوي -->
+  <!-- الهيدر -->
   <header id="siteHeader">
     <div class="container nav">
       <div class="brand">
@@ -201,7 +195,7 @@
     </div>
   </header>
 
-  <!-- البطل (فيديو/صورة خلفية) -->
+  <!-- HERO -->
   <section id="home" class="hero">
     <video id="heroVideo" autoplay muted loop playsinline poster="assets/hero.jpg">
       <source src="assets/videos/hero.mp4" type="video/mp4" />
@@ -216,7 +210,7 @@
           <a class="btn" href="#services" id="cta_primary">اكتشف خدماتنا</a>
           <a class="btn ghost" href="#projects" id="cta_secondary">تصفّح مشاريعنا</a>
         </div>
-        <div class="grid grid-3" style="margin-top:14px">
+        <div class="grid grid-3" style="margin-block-start:14px">
           <div class="stat"><b id="stat1_val">+9</b><span class="muted" id="stat1_lbl">مشاريع</span></div>
           <div class="stat"><b id="stat2_val">+5</b><span class="muted" id="stat2_lbl">استشاريين خبراء</span></div>
           <div class="stat"><b id="stat3_val">+2</b><span class="muted" id="stat3_lbl">سنوات خبرة</span></div>
@@ -234,7 +228,7 @@
         <article class="card reveal">
           <span class="chip">إدارة المشاريع</span>
           <h3>تخطيط ومراقبة وتكلفة</h3>
-          <ul class="muted" style="margin:0 0 0 18px">
+          <ul class="muted">
             <li>خطة أساسية وجداول (Primavera/MS Project)</li>
             <li>تقارير مؤشرات الأداء وEVA</li>
             <li>ضبط الميزانية والقيمة المكتسبة</li>
@@ -244,7 +238,7 @@
         <article class="card reveal">
           <span class="chip">الخدمات الفنية</span>
           <h3>مخططات ومستندات وامتثال</h3>
-          <ul class="muted" style="margin:0 0 0 18px">
+          <ul class="muted">
             <li>Shop Drawings لجميع التخصصات</li>
             <li>حصر كميات وتسعير وBOQ</li>
             <li>ملفات مناقصات ومعايير الجهات</li>
@@ -254,7 +248,7 @@
         <article class="card reveal">
           <span class="chip">التنفيذ</span>
           <h3>إشراف وتسليم متكامل</h3>
-          <ul class="muted" style="margin:0 0 0 18px">
+          <ul class="muted">
             <li>مدني/إنشائي ومعماري وMEP</li>
             <li>جودة وسلامة وحوكمة HSE</li>
             <li>تتبع تقدم الأعمال وتقارير أسبوعية/شهرية</li>
@@ -269,7 +263,7 @@
   <section id="about">
     <div class="container">
       <h2 class="section-title reveal">من نحن</h2>
-    <div class="grid grid-2">
+      <div class="grid grid-2">
         <div class="card reveal">
           <h3>رؤيتنا</h3>
           <p class="muted">أن نكون جهة رائدة في إدارة المشاريع والمقاولات، حيث تُترجم الرؤية إلى تنفيذ بكفاءة وشفافية ومعايير جودة عالية.</p>
@@ -284,7 +278,7 @@
         </div>
         <div class="card reveal">
           <h3>لماذا نحن؟</h3>
-          <ul class="muted" style="margin:0 0 0 18px">
+          <ul class="muted">
             <li>نهج متكامل من المكتب الفني إلى الموقع</li>
             <li>حوكمة جودة وسلامة صارمة</li>
             <li>تواصل شفاف وتقارير قياسية</li>
@@ -294,7 +288,7 @@
     </div>
   </section>
 
-  <!-- مشاريع مختارة -->
+  <!-- المشاريع -->
   <section id="projects">
     <div class="container">
       <h2 class="section-title reveal">مشاريع مختارة</h2>
@@ -321,29 +315,22 @@
     <div class="container">
       <h2 class="section-title reveal">حجز اجتماع</h2>
       <p class="muted reveal">احجز موعدًا يناسبك — المواعيد المحجوزة تظهر تلقائيًا لتفادي التعارض.</p>
-
       <div class="booking-wrap">
         <div class="booking-grid">
           <div class="booking-card reveal">
             <h3 style="margin:0 0 8px">الجدولة المباشرة</h3>
             <p class="muted" style="margin-top:0">استبدل الرابط أدناه برابط صفحة حجزك (Calendly/TidyCal):</p>
             <div style="position:relative; padding-bottom: 70vh; height:0; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#fff">
-              <iframe
-                title="حجز اجتماع"
-                src="https://calendly.com/your-username/30min" 
-                style="position:absolute; inset:0; width:100%; height:100%; border:0;"
-                loading="lazy">
-              </iframe>
+              <iframe title="حجز اجتماع" src="https://calendly.com/your-username/30min" style="position:absolute; inset:0; width:100%; height:100%; border:0;" loading="lazy"></iframe>
             </div>
             <div class="booking-legend" style="margin-top:10px">
               <span class="dot free"></span> متاح
               <span class="dot busy" style="margin-inline-start:10px"></span> محجوز
             </div>
           </div>
-
           <div class="booking-card reveal">
             <h3 style="margin:0 0 8px">ملاحظات الحجز</h3>
-            <ul class="muted" style="margin:0 0 0 18px">
+            <ul class="muted">
               <li>يمكنك الاختيار بين 30/45/60 دقيقة من صفحة الحجز.</li>
               <li>عند حجز عميل آخر لنفس الوقت سيظهر تلقائيًا كمحجوز.</li>
               <li>لاحقًا سنربط الحجز مباشرة بقاعدة بيانات وسجل دخول (Supabase) لعرض لوح تحكم.</li>
@@ -363,18 +350,9 @@
     <div class="container">
       <h2 class="section-title reveal">فريقنا</h2>
       <div class="grid grid-3">
-        <article class="card reveal">
-          <h3>م. رمضان السيد</h3>
-          <p class="muted">مدير مشاريع أول – 27+ سنة خبرة في البنية التحتية والمشاريع الحكومية.</p>
-        </article>
-        <article class="card reveal">
-          <h3>م. محمد السيد | PMP®</h3>
-          <p class="muted">مهندس تخطيط – جداول، ضبط تكلفة، وتحليل أداء لمشاريع كبرى.</p>
-        </article>
-        <article class="card reveal">
-          <h3>م. شريف براضية</h3>
-          <p class="muted">مهندس ميكانيكا أول | MEP – خبرة 13+ سنة في HVAC وإطفاء ومياه.</p>
-        </article>
+        <article class="card reveal"><h3>م. رمضان السيد</h3><p class="muted">مدير مشاريع أول – 27+ سنة خبرة في البنية التحتية والمشاريع الحكومية.</p></article>
+        <article class="card reveal"><h3>م. محمد السيد | PMP®</h3><p class="muted">مهندس تخطيط – جداول، ضبط تكلفة، وتحليل أداء لمشاريع كبرى.</p></article>
+        <article class="card reveal"><h3>م. شريف براضية</h3><p class="muted">مهندس ميكانيكا أول | MEP – خبرة 13+ سنة في HVAC وإطفاء ومياه.</p></article>
       </div>
     </div>
   </section>
@@ -446,7 +424,7 @@
       window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     });
 
-    // تنشيط الرابط الحالي أثناء التمرير
+    // Spy للروابط
     const sections = [...document.querySelectorAll('section[id]')];
     const navLinks = [...document.querySelectorAll('nav a')];
     const spy = new IntersectionObserver((entries)=>{
@@ -457,19 +435,18 @@
           if(link) link.classList.add('active');
         }
       })
-    },{root:null,threshold:.4});
+    },{threshold:.4});
     sections.forEach(sec=>spy.observe(sec));
 
-    // ظهور العناصر
+    // ظهور
     const appear = new IntersectionObserver((entries)=>{
       entries.forEach((entry)=>{ if(entry.isIntersecting){ entry.target.classList.add('in'); } })
     },{threshold:.15});
     document.querySelectorAll('.reveal').forEach(el=>appear.observe(el));
 
-    // i18n بسيط عربي/إنجليزي
+    // i18n
     const i18n = {
-      ar: {
-        brand: 'تخطيط الأعمال', kicker:'نحو بناءٍ يليق بطموحك',
+      ar: { brand:'تخطيط الأعمال', kicker:'نحو بناءٍ يليق بطموحك',
         hero_title:'نحو مشاريعٍ مستدامة بلمسة ساحلية <span style="color:var(--brand-2)">ومعايير عالمية</span>',
         hero_lead:'حلول متكاملة منذ التخطيط والضبط وحتى التنفيذ والتشغيل — جودة، امتثال، وسلامة.',
         nav_home:'الرئيسية', nav_services:'الخدمات', nav_about:'من نحن', nav_projects:'المشاريع', nav_team:'الفريق', nav_contact:'اتصل بنا', nav_booking:'حجز اجتماع',
@@ -477,8 +454,7 @@
         stat1_lbl:'مشاريع', stat2_lbl:'استشاريين خبراء', stat3_lbl:'سنوات خبرة',
         services_title:'خدماتنا', about_title:'من نحن', projects_title:'مشاريع مختارة', team_title:'فريقنا', contact_title:'اتصل بنا'
       },
-      en: {
-        brand: 'TAKHTEET ALAEMAL', kicker:'Built to match your ambition',
+      en: { brand:'TAKHTEET ALAEMAL', kicker:'Built to match your ambition',
         hero_title:'Sustainable, coastal-inspired projects <span style="color:var(--brand-2)">to global standards</span>',
         hero_lead:'End-to-end solutions from planning & controls to execution and operations — quality, compliance & safety.',
         nav_home:'Home', nav_services:'Services', nav_about:'About', nav_projects:'Projects', nav_team:'Team', nav_contact:'Contact', nav_booking:'Book a Meeting',
@@ -489,22 +465,14 @@
     };
 
     const refs = {
-      brand: document.getElementById('brand'),
-      kicker: document.getElementById('kicker'),
-      hero_title: document.getElementById('hero_title'),
-      hero_lead: document.getElementById('hero_lead'),
-      nav_home: document.getElementById('nav_home'),
-      nav_services: document.getElementById('nav_services'),
-      nav_about: document.getElementById('nav_about'),
-      nav_projects: document.getElementById('nav_projects'),
-      nav_team: document.getElementById('nav_team'),
-      nav_contact: document.getElementById('nav_contact'),
+      brand: document.getElementById('brand'), kicker: document.getElementById('kicker'),
+      hero_title: document.getElementById('hero_title'), hero_lead: document.getElementById('hero_lead'),
+      nav_home: document.getElementById('nav_home'), nav_services: document.getElementById('nav_services'),
+      nav_about: document.getElementById('nav_about'), nav_projects: document.getElementById('nav_projects'),
+      nav_team: document.getElementById('nav_team'), nav_contact: document.getElementById('nav_contact'),
       nav_booking: document.getElementById('nav_booking'),
-      cta_primary: document.getElementById('cta_primary'),
-      cta_secondary: document.getElementById('cta_secondary'),
-      stat1_lbl: document.getElementById('stat1_lbl'),
-      stat2_lbl: document.getElementById('stat2_lbl'),
-      stat3_lbl: document.getElementById('stat3_lbl'),
+      cta_primary: document.getElementById('cta_primary'), cta_secondary: document.getElementById('cta_secondary'),
+      stat1_lbl: document.getElementById('stat1_lbl'), stat2_lbl: document.getElementById('stat2_lbl'), stat3_lbl: document.getElementById('stat3_lbl'),
       services_title: document.querySelector('#services .section-title'),
       about_title: document.querySelector('#about .section-title'),
       projects_title: document.querySelector('#projects .section-title'),
@@ -517,31 +485,21 @@
     function applyLang(l){
       const t = i18n[l]; if(!t) return;
       document.documentElement.lang = l === 'ar' ? 'ar' : 'en';
-      document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
+      document.documentElement.dir  = l === 'ar' ? 'rtl' : 'ltr';
       toggle.textContent = l === 'ar' ? 'EN' : 'عربي';
-      refs.brand.textContent = t.brand;
-      refs.kicker.textContent = t.kicker;
-      refs.hero_title.innerHTML = t.hero_title;
-      refs.hero_lead.textContent = t.hero_lead;
-      refs.nav_home.textContent = t.nav_home;
-      refs.nav_services.textContent = t.nav_services;
-      refs.nav_about.textContent = t.nav_about;
-      refs.nav_projects.textContent = t.nav_projects;
-      refs.nav_team.textContent = t.nav_team;
-      refs.nav_contact.textContent = t.nav_contact;
+      // نصوص
+      refs.brand.textContent = t.brand; refs.kicker.textContent = t.kicker;
+      refs.hero_title.innerHTML = t.hero_title; refs.hero_lead.textContent = t.hero_lead;
+      refs.nav_home.textContent = t.nav_home; refs.nav_services.textContent = t.nav_services;
+      refs.nav_about.textContent = t.nav_about; refs.nav_projects.textContent = t.nav_projects;
+      refs.nav_team.textContent = t.nav_team; refs.nav_contact.textContent = t.nav_contact;
       refs.nav_booking.textContent = t.nav_booking;
-      refs.cta_primary.textContent = t.cta_primary;
-      refs.cta_secondary.textContent = t.cta_secondary;
-      refs.stat1_lbl.textContent = t.stat1_lbl;
-      refs.stat2_lbl.textContent = t.stat2_lbl;
-      refs.stat3_lbl.textContent = t.stat3_lbl;
-      refs.services_title.textContent = t.services_title;
-      refs.about_title.textContent = t.about_title;
-      refs.projects_title.textContent = t.projects_title;
-      refs.team_title.textContent = t.team_title;
-      refs.contact_title.textContent = t.contact_title;
+      refs.cta_primary.textContent = t.cta_primary; refs.cta_secondary.textContent = t.cta_secondary;
+      refs.stat1_lbl.textContent = t.stat1_lbl; refs.stat2_lbl.textContent = t.stat2_lbl; refs.stat3_lbl.textContent = t.stat3_lbl;
+      refs.services_title.textContent = t.services_title; refs.about_title.textContent = t.about_title;
+      refs.projects_title.textContent = t.projects_title; refs.team_title.textContent = t.team_title; refs.contact_title.textContent = t.contact_title;
     }
-    toggle.addEventListener('click', ()=>{ lang = lang==='ar'?'en':'ar'; applyLang(lang); });
+    toggle.addEventListener('click', ()=>{ lang = (lang==='ar'?'en':'ar'); applyLang(lang); });
 
     // قائمة الجوال
     const menu = document.getElementById('menu');
@@ -561,12 +519,8 @@
 
     // تلوين الهيدر عند التمرير
     const headerEl = document.getElementById('siteHeader');
-    const onScroll = ()=>{
-      if(window.scrollY>50){ headerEl.classList.add('scrolled'); }
-      else{ headerEl.classList.remove('scrolled'); }
-    };
-    window.addEventListener('scroll', onScroll);
-    onScroll();
+    const onScroll = ()=>{ if(window.scrollY>50){ headerEl.classList.add('scrolled'); } else { headerEl.classList.remove('scrolled'); } };
+    window.addEventListener('scroll', onScroll); onScroll();
 
     // نافذة تسجيل الدخول (واجهة فقط)
     const loginBtn = document.getElementById('loginBtn');
@@ -582,6 +536,7 @@
       });
     }
 
+    // اللغة الافتراضية
     applyLang(lang);
   </script>
 </body>
