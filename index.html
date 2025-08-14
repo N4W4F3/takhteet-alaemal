@@ -14,24 +14,16 @@
   <style>
     :root{
       /* لوحة رملية/عاجية ساحلية */
-      --bg:#f7f3ea;         /* خلفية عاجية فاتحة */
-      --bg-grad-1:#f3eee3;  /* تدرّج خفيف */
-      --bg-grad-2:#efe6d8;
-      --card:#fffaf1;       /* بطاقات بلون العاج */
-      --line:#e5dccb;       /* حدود رملية فاتحة */
-      --text:#2b3135;       /* نص داكن دافئ */
-      --muted:#6b7280;      /* نص ثانوي */
-      --brand:#cfb990;      /* رمل ذهبي */
-      --brand-2:#0ea5a0;    /* فيروز البحر */
-      --accent:#c26d3b;     /* طوب/تراكوتا */
-      --radius:20px;
-      --shadow:0 12px 40px rgba(113,86,37,.15);
+      --bg:#f7f3ea; --bg-grad-1:#f3eee3; --bg-grad-2:#efe6d8;
+      --card:#fffaf1; --line:#e5dccb; --text:#2b3135; --muted:#6b7280;
+      --brand:#cfb990; --brand-2:#0ea5a0; --accent:#c26d3b;
+      --radius:20px; --shadow:0 12px 40px rgba(113,86,37,.15);
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
       margin:0;color:var(--text);
-      font:16px/1.8 system-ui,-apple-system,Segoe UI,Roboto,"Noto Kufi Arabic",Tahoma,Arial;
+      font:16px/1.85 system-ui,-apple-system,Segoe UI,Roboto,"Noto Kufi Arabic",Tahoma,Arial;
       background:
         radial-gradient(900px 500px at 100% -10%, rgba(206,185,144,.20), transparent 60%),
         linear-gradient(180deg,var(--bg-grad-1) 0%, var(--bg-grad-2) 50%, var(--bg) 100%);
@@ -44,7 +36,7 @@
     .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
     .chip{display:inline-flex;align-items:center;gap:8px;font-size:12px;padding:6px 12px;border-radius:999px;background:#fff6e6;border:1px solid var(--line);color:#7a6a4a}
 
-    /* ===================== NAV (معدّل ليكون شفاف ويتلوّن عند التمرير) ===================== */
+    /* ===================== NAV (مكبر + شفاف) ===================== */
     header{
       position:fixed; top:0; left:0; right:0; z-index:40;
       background:transparent; border-bottom:1px solid transparent;
@@ -57,23 +49,26 @@
       box-shadow:0 6px 20px rgba(113,86,37,.08);
       backdrop-filter:blur(10px);
     }
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:10px 0; transition: padding .3s ease}
-    header.scrolled .nav{padding:6px 0}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0; transition: padding .3s ease}
+    header.scrolled .nav{padding:8px 0}
 
-    .brand{display:flex;align-items:center;gap:12px}
+    .brand{display:flex;align-items:center;gap:14px}
     .brand img{
-      width:72px;height:72px;object-fit:contain;border-radius:10px;
+      width:80px;height:80px;object-fit:contain;border-radius:12px;
       transition: width .3s ease, height .3s ease, transform .3s ease;
     }
-    header.scrolled .brand img{width:56px;height:56px}
+    header.scrolled .brand img{width:64px;height:64px}
 
-    .brand h1{margin:0;font-size:18px;letter-spacing:.3px;transition:color .3s ease}
-    /* روابط القائمة */
-    nav ul{display:flex;gap:14px;list-style:none;margin:0;padding:0}
-    nav a{padding:8px 12px;border-radius:999px;transition:background .2s,color .2s}
+    .brand h1{margin:0;font-size:20px;letter-spacing:.3px;transition:color .3s ease}
+
+    nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
+    nav a{
+      padding:10px 14px;border-radius:999px;transition:background .2s,color .2s;
+      font-size:18px; font-weight:700; letter-spacing:.2px;
+    }
     nav a.active, nav a:hover{background:#fff3dc}
 
-    /* عندما يكون الهيدر شفاف فوق الفيديو: خلّي النص أبيض */
+    /* نص أبيض فوق الفيديو عند الشفافية */
     header:not(.scrolled) .brand h1,
     header:not(.scrolled) nav a{ color:#fff; }
     header:not(.scrolled) nav a.active,
@@ -82,20 +77,29 @@
     .burger{display:none;gap:6px;background:transparent;border:1px solid var(--line);padding:8px 10px;border-radius:10px;color:var(--text)}
     .burger span{width:18px;height:2px;background:currentColor;display:block}
 
-    /* ===================== HERO ===================== */
+    /* ===================== HERO (تقوية الخلفية) ===================== */
     .hero{position:relative;min-height:90vh;display:grid;place-items:center;border-bottom:1px solid var(--line)}
-    .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.02) brightness(.85)}
-    .hero .overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(248,244,236,.55) 0%, rgba(248,244,236,.18) 35%, rgba(248,244,236,.62) 100%)}
-    .hero .content{position:relative;z-index:2;padding:130px 0 60px} /* زيادة بسيطة عشان الهيدر ثابت */
-
-    .title{font-size:44px;line-height:1.2;margin:16px 0}
-    .lead{color:var(--text);opacity:.85;margin:0 0 18px}
+    .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.02) brightness(.78)}
+    .hero .overlay{
+      position:absolute;inset:0;
+      /* زودنا العتمة للتباين الواضح */
+      background:
+        linear-gradient(180deg, rgba(16,26,32,.45) 0%, rgba(16,26,32,.30) 30%, rgba(248,244,236,.72) 100%),
+        radial-gradient(900px 500px at 100% -10%, rgba(14,165,160,.15), transparent 60%);
+    }
+    .hero .content{position:relative;z-index:2;padding:140px 0 70px}
+    .title{font-size:46px;line-height:1.2;margin:16px 0;color:#1f2937}
+    .lead{color:#2b3135;opacity:.92;margin:0 0 18px}
     .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
-    .hero-card{background:rgba(255,250,241,.75);backdrop-filter:blur(10px);border:1px solid var(--line);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero-card{
+      background:rgba(255,250,241,.88); /* أوضح */
+      backdrop-filter:blur(10px);border:1px solid var(--line);
+      padding:22px;border-radius:var(--radius);box-shadow:var(--shadow)
+    }
 
     /* ===================== Sections ===================== */
-    section{padding:70px 0;border-bottom:1px solid var(--line);scroll-margin-top:110px}
-    .section-title{font-size:30px;margin:0 0 18px}
+    section{padding:80px 0;border-bottom:1px solid var(--line);scroll-margin-top:120px}
+    .section-title{font-size:32px;margin:0 0 18px}
     .muted{color:var(--muted)}
     .grid{display:grid;gap:18px}
     .grid-2{grid-template-columns:repeat(2,1fr)}
@@ -105,19 +109,16 @@
     .stat{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;border-radius:16px;background:#fff7e7;border:1px solid var(--line)}
     .stat b{font-size:28px}
 
-    /* ===================== Projects ===================== */
     .gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
     .tile{position:relative;overflow:hidden;border-radius:16px;background:#fff7e7;border:1px solid var(--line)}
     .tile .caption{position:absolute;inset:auto 0 0 0;padding:12px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.35));color:#fff}
     .tile img{width:100%;height:220px;object-fit:cover;transition:transform .5s}
     .tile:hover img{transform:scale(1.06)}
 
-    /* ===================== Contact ===================== */
     form{display:grid;gap:12px}
     input,textarea{width:100%;padding:12px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--text)}
     textarea{min-height:120px;resize:vertical}
 
-    /* ===================== Footer ===================== */
     footer{padding:40px 0;color:#6a6a6a}
     .foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
     .social{display:flex;gap:12px}
@@ -126,19 +127,31 @@
     /* Floating WhatsApp */
     .whatsapp{position:fixed;left:18px;bottom:18px;z-index:50;background:#25d366;color:#062a1a;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-weight:900;box-shadow:var(--shadow)}
 
-    /* Responsive */
-    @media (max-width:920px){
-      .burger{display:inline-flex}
-      nav ul{position:absolute;top:64px;right:4%;left:4%;padding:14px;border:1px solid var(--line);border-radius:16px;background:#fffaf1;display:none;flex-direction:column;gap:8px}
-      nav ul.open{display:flex}
-      /* في الشفافية على الجوال خليه غامق لسهولة القراءة */
-      header:not(.scrolled) nav ul{background:rgba(255,250,241,.96)}
-      header:not(.scrolled) nav a{color:var(--text)}
-    }
-    @media (max-width:1024px){.grid-3{grid-template-columns:repeat(2,1fr)}.title{font-size:36px}}
-    @media (max-width:720px){.grid-2,.grid-3{grid-template-columns:1fr}.hero{min-height:70vh}.title{font-size:30px}}
+    /* حجز اجتماع */
+    .booking-wrap{display:grid;gap:18px}
+    .booking-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+    .booking-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+    .booking-legend{display:flex;gap:10px;align-items:center;font-size:14px;color:#475569}
+    .dot{width:10px;height:10px;border-radius:50%}
+    .dot.free{background:#0ea5a0}.dot.busy{background:#c26d3b}.dot.mine{background:#cfb990}
 
-    /* Appear animations */
+    /* نافذة الدخول */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:100}
+    .modal.open{display:flex}
+    .modal .panel{width:min(480px,92%);background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:22px;border:1px solid var(--line)}
+    .modal h3{margin:0 0 10px}
+    .modal .actions{display:flex;gap:10px;justify-content:flex-end}
+
+    /* Responsive */
+    @media (max-width:980px){ .grid-3{grid-template-columns:repeat(2,1fr)} .booking-grid{grid-template-columns:1fr} }
+    @media (max-width:720px){
+      .grid-2,.grid-3{grid-template-columns:1fr}
+      .hero{min-height:70vh}.title{font-size:32px}
+      nav a{font-size:16px;padding:8px 12px}
+      .brand img{width:64px;height:64px}
+      header.scrolled .brand img{width:56px;height:56px}
+    }
+
     .reveal{opacity:0;transform:translateY(12px);transition:.6s ease}
     .reveal.in{opacity:1;transform:none}
   </style>
@@ -160,10 +173,12 @@
           <li><a href="#about" id="nav_about">من نحن</a></li>
           <li><a href="#projects" id="nav_projects">المشاريع</a></li>
           <li><a href="#team" id="nav_team">الفريق</a></li>
+          <li><a href="#booking" id="nav_booking">حجز اجتماع</a></li>
           <li><a href="#contact" id="nav_contact">اتصل بنا</a></li>
         </ul>
       </nav>
       <div style="display:flex;gap:8px;align-items:center">
+        <button id="loginBtn" class="btn ghost" style="padding:8px 14px">تسجيل الدخول</button>
         <button id="langToggle" class="btn ghost" style="padding:8px 14px">EN</button>
         <button class="burger" id="menuToggle" aria-label="فتح القائمة" aria-expanded="false"><span></span><span></span><span></span></button>
       </div>
@@ -285,6 +300,57 @@
     </div>
   </section>
 
+  <!-- حجز اجتماع -->
+  <section id="booking">
+    <div class="container">
+      <h2 class="section-title reveal">حجز اجتماع</h2>
+      <p class="muted reveal">احجز موعدًا يناسبك — المواعيد المحجوزة تظهر تلقائيًا لتفادي التعارض.</p>
+
+      <div class="booking-wrap">
+        <div class="booking-grid">
+          <!-- Embed لحجز فوري (استبدل الرابط برابط حسابك في Calendly أو أي أداة حجز) -->
+          <div class="booking-card reveal">
+            <h3 style="margin:0 0 8px">الجدولة المباشرة</h3>
+            <p class="muted" style="margin-top:0">استبدل الرابط أدناه برابط صفحة حجزك:</p>
+            <div style="position:relative; padding-bottom: 70vh; height:0; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#fff">
+              <!-- مثال: calendly -->
+              <iframe
+                title="حجز اجتماع عبر Calendly"
+                src="https://calendly.com/your-username/30min" 
+                style="position:absolute; inset:0; width:100%; height:100%; border:0;"
+                loading="lazy">
+              </iframe>
+            </div>
+            <div class="booking-legend" style="margin-top:10px">
+              <span class="dot free"></span> متاح
+              <span class="dot busy" style="margin-inline-start:10px"></span> محجوز
+            </div>
+          </div>
+
+          <!-- معلومات إضافية/سياسة الحجز -->
+          <div class="booking-card reveal">
+            <h3 style="margin:0 0 8px">ملاحظات الحجز</h3>
+            <ul class="muted" style="margin:0 0 0 18px">
+              <li>يمكنك الاختيار بين 30/45/60 دقيقة من صفحة الحجز.</li>
+              <li>عند حجز عميل آخر لنفس الوقت سيظهر تلقائيًا كمحجوز.</li>
+              <li>لاحقًا سنربط الحجز مباشرة بقاعدة بيانات وسجل دخول (Supabase) لعرض لوح تحكم.</li>
+            </ul>
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+              <a class="btn" href="#contact">تواصل للاستفسار</a>
+              <a class="btn ghost" href="#home">العودة للرئيسية</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- زر تجريبي لتبديل أدوات حجز مختلفة لاحقًا -->
+        <div class="booking-card reveal" style="display:none">
+          <h3 style="margin:0 0 8px">تكامل مخصص (قريبًا)</h3>
+          <p class="muted">واجهة جاهزة لربطها بواجهة برمجية للمدد المتقدمة (مصادقة، إدارة العملاء، رسائل تأكيد...).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- الفريق -->
   <section id="team">
     <div class="container">
@@ -340,6 +406,22 @@
     </div>
   </footer>
 
+  <!-- نافذة تسجيل الدخول (واجهة فقط حالياً) -->
+  <div id="loginModal" class="modal" aria-hidden="true" role="dialog" aria-label="تسجيل الدخول">
+    <div class="panel">
+      <h3>تسجيل الدخول</h3>
+      <p class="muted" style="margin-top:0">نسخة واجهة فقط — سنربطها لاحقًا بنظام حسابات (Supabase).</p>
+      <form id="loginForm" style="display:grid;gap:10px">
+        <input id="loginEmail" type="email" placeholder="البريد الإلكتروني" required>
+        <input id="loginPass" type="password" placeholder="كلمة المرور" required>
+        <div class="actions">
+          <button type="button" class="btn ghost" id="closeLogin">إلغاء</button>
+          <button type="submit" class="btn">دخول</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
     // سنة ديناميكية
     document.getElementById('y').textContent = new Date().getFullYear();
@@ -373,9 +455,7 @@
 
     // ظهور العناصر
     const appear = new IntersectionObserver((entries)=>{
-      entries.forEach((entry)=>{
-        if(entry.isIntersecting){ entry.target.classList.add('in'); }
-      })
+      entries.forEach((entry)=>{ if(entry.isIntersecting){ entry.target.classList.add('in'); } })
     },{threshold:.15});
     document.querySelectorAll('.reveal').forEach(el=>appear.observe(el));
 
@@ -385,7 +465,7 @@
         brand: 'تخطيط الأعمال', kicker:'نحو بناءٍ يليق بطموحك',
         hero_title:'نحو مشاريعٍ مستدامة بلمسة ساحلية <span style="color:var(--brand-2)">ومعايير عالمية</span>',
         hero_lead:'حلول متكاملة منذ التخطيط والضبط وحتى التنفيذ والتشغيل — جودة، امتثال، وسلامة.',
-        nav_home:'الرئيسية', nav_services:'الخدمات', nav_about:'من نحن', nav_projects:'المشاريع', nav_team:'الفريق', nav_contact:'اتصل بنا',
+        nav_home:'الرئيسية', nav_services:'الخدمات', nav_about:'من نحن', nav_projects:'المشاريع', nav_team:'الفريق', nav_contact:'اتصل بنا', nav_booking:'حجز اجتماع',
         cta_primary:'اكتشف خدماتنا', cta_secondary:'تصفّح مشاريعنا',
         stat1_lbl:'مشاريع', stat2_lbl:'استشاريين خبراء', stat3_lbl:'سنوات خبرة',
         services_title:'خدماتنا', about_title:'من نحن', projects_title:'مشاريع مختارة', team_title:'فريقنا', contact_title:'اتصل بنا'
@@ -394,7 +474,7 @@
         brand: 'TAKHTEET ALAEMAL', kicker:'Built to match your ambition',
         hero_title:'Sustainable, coastal-inspired projects <span style="color:var(--brand-2)">to global standards</span>',
         hero_lead:'End-to-end solutions from planning & controls to execution and operations — quality, compliance & safety.',
-        nav_home:'Home', nav_services:'Services', nav_about:'About', nav_projects:'Projects', nav_team:'Team', nav_contact:'Contact',
+        nav_home:'Home', nav_services:'Services', nav_about:'About', nav_projects:'Projects', nav_team:'Team', nav_contact:'Contact', nav_booking:'Book a Meeting',
         cta_primary:'Explore Services', cta_secondary:'See Projects',
         stat1_lbl:'Projects', stat2_lbl:'Expert Consultants', stat3_lbl:'Years of Experience',
         services_title:'Our Services', about_title:'About Us', projects_title:'Featured Projects', team_title:'Our Team', contact_title:'Contact Us'
@@ -412,6 +492,7 @@
       nav_projects: document.getElementById('nav_projects'),
       nav_team: document.getElementById('nav_team'),
       nav_contact: document.getElementById('nav_contact'),
+      nav_booking: document.getElementById('nav_booking'),
       cta_primary: document.getElementById('cta_primary'),
       cta_secondary: document.getElementById('cta_secondary'),
       stat1_lbl: document.getElementById('stat1_lbl'),
@@ -441,6 +522,7 @@
       refs.nav_projects.textContent = t.nav_projects;
       refs.nav_team.textContent = t.nav_team;
       refs.nav_contact.textContent = t.nav_contact;
+      refs.nav_booking.textContent = t.nav_booking;
       refs.cta_primary.textContent = t.cta_primary;
       refs.cta_secondary.textContent = t.cta_secondary;
       refs.stat1_lbl.textContent = t.stat1_lbl;
@@ -462,7 +544,7 @@
       menuToggle.setAttribute('aria-expanded', opened ? 'true' : 'false');
     });
 
-    // تشغيل الفيديو (مع fallback للصورة)
+    // تشغيل الفيديو
     const video = document.getElementById('heroVideo');
     if(video){
       const tryPlay = ()=> video.play().catch(()=>{});
@@ -477,8 +559,21 @@
       else{ headerEl.classList.remove('scrolled'); }
     };
     window.addEventListener('scroll', onScroll);
-    onScroll(); // تفعيل أولي
+    onScroll();
 
+    // نافذة تسجيل الدخول (واجهة فقط)
+    const loginBtn = document.getElementById('loginBtn');
+    const loginModal = document.getElementById('loginModal');
+    const closeLogin = document.getElementById('closeLogin');
+    loginBtn.addEventListener('click', ()=> loginModal.classList.add('open'));
+    closeLogin.addEventListener('click', ()=> loginModal.classList.remove('open'));
+    document.getElementById('loginForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      alert('سيتم ربط تسجيل الدخول لاحقًا بباكند (Supabase) – هذه واجهة تجريبية الآن.');
+      loginModal.classList.remove('open');
+    });
+
+    // تفعيل الترجمة الافتراضية
     applyLang(lang);
   </script>
 </body>
