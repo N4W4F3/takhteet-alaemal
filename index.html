@@ -29,9 +29,12 @@
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{margin:0;color:var(--text);font:16px/1.8 system-ui,-apple-system,Segoe UI,Roboto,"Noto Kufi Arabic",Tahoma,Arial;background:
-      radial-gradient(900px 500px at 100% -10%, rgba(206,185,144,.20), transparent 60%),
-      linear-gradient(180deg,var(--bg-grad-1) 0%, var(--bg-grad-2) 50%, var(--bg) 100%);
+    body{
+      margin:0;color:var(--text);
+      font:16px/1.8 system-ui,-apple-system,Segoe UI,Roboto,"Noto Kufi Arabic",Tahoma,Arial;
+      background:
+        radial-gradient(900px 500px at 100% -10%, rgba(206,185,144,.20), transparent 60%),
+        linear-gradient(180deg,var(--bg-grad-1) 0%, var(--bg-grad-2) 50%, var(--bg) 100%);
     }
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
@@ -40,28 +43,58 @@
     .btn:hover{transform:translateY(-2px);filter:saturate(1.05)}
     .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
     .chip{display:inline-flex;align-items:center;gap:8px;font-size:12px;padding:6px 12px;border-radius:999px;background:#fff6e6;border:1px solid var(--line);color:#7a6a4a}
-    /* Top Nav */
-    header{position:sticky;top:0;z-index:40;backdrop-filter:blur(10px);background:rgba(255,250,241,.75);border-bottom:1px solid var(--line)}
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+
+    /* ===================== NAV (معدّل ليكون شفاف ويتلوّن عند التمرير) ===================== */
+    header{
+      position:fixed; top:0; left:0; right:0; z-index:40;
+      background:transparent; border-bottom:1px solid transparent;
+      transition: background .3s ease, box-shadow .3s ease, border-color .3s ease;
+      backdrop-filter:none;
+    }
+    header.scrolled{
+      background:rgba(255,250,241,.92);
+      border-color:var(--line);
+      box-shadow:0 6px 20px rgba(113,86,37,.08);
+      backdrop-filter:blur(10px);
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:10px 0; transition: padding .3s ease}
+    header.scrolled .nav{padding:6px 0}
+
     .brand{display:flex;align-items:center;gap:12px}
-    .brand img{width:48px;height:48px;object-fit:contain;border-radius:10px}
-    .brand h1{margin:0;font-size:18px;letter-spacing:.3px}
-    .burger{display:none;gap:6px;background:transparent;border:1px solid var(--line);padding:8px 10px;border-radius:10px;color:var(--text)}
-    .burger span{width:18px;height:2px;background:var(--text);display:block}
+    .brand img{
+      width:72px;height:72px;object-fit:contain;border-radius:10px;
+      transition: width .3s ease, height .3s ease, transform .3s ease;
+    }
+    header.scrolled .brand img{width:56px;height:56px}
+
+    .brand h1{margin:0;font-size:18px;letter-spacing:.3px;transition:color .3s ease}
+    /* روابط القائمة */
     nav ul{display:flex;gap:14px;list-style:none;margin:0;padding:0}
-    nav a{padding:8px 12px;border-radius:999px}
+    nav a{padding:8px 12px;border-radius:999px;transition:background .2s,color .2s}
     nav a.active, nav a:hover{background:#fff3dc}
-    /* Hero */
+
+    /* عندما يكون الهيدر شفاف فوق الفيديو: خلّي النص أبيض */
+    header:not(.scrolled) .brand h1,
+    header:not(.scrolled) nav a{ color:#fff; }
+    header:not(.scrolled) nav a.active,
+    header:not(.scrolled) nav a:hover{ background:rgba(255,255,255,.22) }
+
+    .burger{display:none;gap:6px;background:transparent;border:1px solid var(--line);padding:8px 10px;border-radius:10px;color:var(--text)}
+    .burger span{width:18px;height:2px;background:currentColor;display:block}
+
+    /* ===================== HERO ===================== */
     .hero{position:relative;min-height:90vh;display:grid;place-items:center;border-bottom:1px solid var(--line)}
     .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.02) brightness(.85)}
-    .hero .overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(248,244,236,.60) 0%, rgba(248,244,236,.22) 35%, rgba(248,244,236,.66) 100%)}
-    .hero .content{position:relative;z-index:2;padding:110px 0 60px}
+    .hero .overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(248,244,236,.55) 0%, rgba(248,244,236,.18) 35%, rgba(248,244,236,.62) 100%)}
+    .hero .content{position:relative;z-index:2;padding:130px 0 60px} /* زيادة بسيطة عشان الهيدر ثابت */
+
     .title{font-size:44px;line-height:1.2;margin:16px 0}
     .lead{color:var(--text);opacity:.85;margin:0 0 18px}
     .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
     .hero-card{background:rgba(255,250,241,.75);backdrop-filter:blur(10px);border:1px solid var(--line);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
-    /* Sections */
-    section{padding:70px 0;border-bottom:1px solid var(--line);scroll-margin-top:90px}
+
+    /* ===================== Sections ===================== */
+    section{padding:70px 0;border-bottom:1px solid var(--line);scroll-margin-top:110px}
     .section-title{font-size:30px;margin:0 0 18px}
     .muted{color:var(--muted)}
     .grid{display:grid;gap:18px}
@@ -71,31 +104,40 @@
     .card h3{margin:0 0 8px}
     .stat{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;border-radius:16px;background:#fff7e7;border:1px solid var(--line)}
     .stat b{font-size:28px}
-    /* Projects Gallery */
+
+    /* ===================== Projects ===================== */
     .gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
     .tile{position:relative;overflow:hidden;border-radius:16px;background:#fff7e7;border:1px solid var(--line)}
     .tile .caption{position:absolute;inset:auto 0 0 0;padding:12px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.35));color:#fff}
     .tile img{width:100%;height:220px;object-fit:cover;transition:transform .5s}
     .tile:hover img{transform:scale(1.06)}
-    /* Contact */
+
+    /* ===================== Contact ===================== */
     form{display:grid;gap:12px}
     input,textarea{width:100%;padding:12px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--text)}
     textarea{min-height:120px;resize:vertical}
-    /* Footer */
+
+    /* ===================== Footer ===================== */
     footer{padding:40px 0;color:#6a6a6a}
     .foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
     .social{display:flex;gap:12px}
     .social a{width:36px;height:36px;border-radius:10px;background:#fff3dc;display:grid;place-items:center;border:1px solid var(--line)}
+
     /* Floating WhatsApp */
     .whatsapp{position:fixed;left:18px;bottom:18px;z-index:50;background:#25d366;color:#062a1a;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-weight:900;box-shadow:var(--shadow)}
+
     /* Responsive */
     @media (max-width:920px){
       .burger{display:inline-flex}
       nav ul{position:absolute;top:64px;right:4%;left:4%;padding:14px;border:1px solid var(--line);border-radius:16px;background:#fffaf1;display:none;flex-direction:column;gap:8px}
       nav ul.open{display:flex}
+      /* في الشفافية على الجوال خليه غامق لسهولة القراءة */
+      header:not(.scrolled) nav ul{background:rgba(255,250,241,.96)}
+      header:not(.scrolled) nav a{color:var(--text)}
     }
     @media (max-width:1024px){.grid-3{grid-template-columns:repeat(2,1fr)}.title{font-size:36px}}
     @media (max-width:720px){.grid-2,.grid-3{grid-template-columns:1fr}.hero{min-height:70vh}.title{font-size:30px}}
+
     /* Appear animations */
     .reveal{opacity:0;transform:translateY(12px);transition:.6s ease}
     .reveal.in{opacity:1;transform:none}
@@ -103,8 +145,9 @@
 </head>
 <body>
   <a class="whatsapp" href="https://wa.me/966544428455" target="_blank" aria-label="تواصل واتساب">WA</a>
+
   <!-- شريط علوي -->
-  <header>
+  <header id="siteHeader">
     <div class="container nav">
       <div class="brand">
         <img src="assets/logo.png" alt="شعار تخطيط الأعمال" />
@@ -267,7 +310,7 @@
   <section id="contact">
     <div class="container">
       <h2 class="section-title reveal">اتصل بنا</h2>
-    <div class="grid grid-2">
+      <div class="grid grid-2">
         <div class="card reveal">
           <form id="contactForm">
             <input required name="name" placeholder="الاسم الكامل" />
@@ -349,8 +392,8 @@
       },
       en: {
         brand: 'TAKHTEET ALAEMAL', kicker:'Built to match your ambition',
-        hero_title:'Sustainable, coastal‑inspired projects <span style="color:var(--brand-2)">to global standards</span>',
-        hero_lead:'End‑to‑end solutions from planning & controls to execution and operations — quality, compliance & safety.',
+        hero_title:'Sustainable, coastal-inspired projects <span style="color:var(--brand-2)">to global standards</span>',
+        hero_lead:'End-to-end solutions from planning & controls to execution and operations — quality, compliance & safety.',
         nav_home:'Home', nav_services:'Services', nav_about:'About', nav_projects:'Projects', nav_team:'Team', nav_contact:'Contact',
         cta_primary:'Explore Services', cta_secondary:'See Projects',
         stat1_lbl:'Projects', stat2_lbl:'Expert Consultants', stat3_lbl:'Years of Experience',
@@ -419,13 +462,22 @@
       menuToggle.setAttribute('aria-expanded', opened ? 'true' : 'false');
     });
 
-    // تشغيل الفيديو (وحماية من فشل autoplay في بعض المتصفحات)
+    // تشغيل الفيديو (مع fallback للصورة)
     const video = document.getElementById('heroVideo');
     if(video){
       const tryPlay = ()=> video.play().catch(()=>{});
       document.addEventListener('visibilitychange', tryPlay, {once:true});
       window.addEventListener('load', tryPlay, {once:true});
     }
+
+    // هيدر يتلوّن عند التمرير
+    const headerEl = document.getElementById('siteHeader');
+    const onScroll = ()=>{
+      if(window.scrollY>50){ headerEl.classList.add('scrolled'); }
+      else{ headerEl.classList.remove('scrolled'); }
+    };
+    window.addEventListener('scroll', onScroll);
+    onScroll(); // تفعيل أولي
 
     applyLang(lang);
   </script>
